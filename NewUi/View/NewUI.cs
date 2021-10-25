@@ -22,6 +22,7 @@ namespace NewUi
         {
             CreateOrChangeTestProgram createOrChangeTestProgram = new CreateOrChangeTestProgram();
             createOrChangeTestProgram.ShowDialog();
+            this.Close();
         }
     }
 }
