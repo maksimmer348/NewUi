@@ -8,5 +8,9 @@
         //еслли НЕТ то тот источто мы меняем цвет шариков, и иключаем прибор из дальнейших испытаний
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ToFormString()
+        {
+            return "См. в Изделии";
+        }
     }
 }

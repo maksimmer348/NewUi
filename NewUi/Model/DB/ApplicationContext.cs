@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic.ApplicationServices;
 
-namespace NewUi.DB
+namespace NewUi
 {
     public class ApplicationContext : DbContext
     {

@@ -17,5 +17,9 @@ public class ContactCheck : ITestProgram
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ToFormString()
+        {
+            return "См. в Изделии";
+        }
     }
 }

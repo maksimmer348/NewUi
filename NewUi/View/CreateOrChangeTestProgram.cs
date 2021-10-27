@@ -13,11 +13,32 @@ namespace NewUi.View
 {
     public partial class CreateOrChangeTestProgram : Form
     {
-        private TestProgramBuilder testProgram = new TestProgramBuilder();
+        private TestProgramsController _programController = new();
+       
         public CreateOrChangeTestProgram()
         {
             InitializeComponent();
+            _programController.TestProgram.SetTestProgramName += SetTestProgramName;
+            _programController.TestProgram.ChangedTestProgram += ChangedTestProgram;
+            _programController.TestProgram.TestProgramsChangedList += ChangedTestProgramsList;
         }
+
+        private void ChangedTestProgram(TypesTestProgram programType)
+        {
+            
+        }
+
+        private void ChangedTestProgramsList(List<ITestProgram> programList)
+        {
+           
+        }
+
+        protected virtual void SetTestProgramName(string programName)
+        {
+           
+        }
+
+
 
         private void CreateTestProgram_Load(object sender, EventArgs e)
         {
@@ -26,7 +47,7 @@ namespace NewUi.View
 
         private void btnAddTestProgram_Click(object sender, EventArgs e)
         {
-
+            
         }
 
 
@@ -35,11 +56,7 @@ namespace NewUi.View
 
         }
 
-        void CreateOrChangeTestPrograGroupsEnadled(bool enabled = false)
-        {
-            gBoxModul.Enabled = enabled;
-            gBoxCreateOrChangeTestProgram.Enabled = enabled;
-        }
+      
 
         private void gBoxModul_Enter(object sender, EventArgs e)
         {
@@ -48,36 +65,20 @@ namespace NewUi.View
 
         private void btnAddModul_Click(object sender, EventArgs e)
         {
+            //решить ка кзапихать сюад радиобаттоны?
             if (rBtnContactCheck.Checked)
             {
-                testProgram.AddPrograms(new ContactCheck());
+                _programController.SelectTestProgram(TypesTestProgram.ContactCheck);
             }
-            if (rBtnSupplyOn.Checked)
-            {
-                testProgram.AddPrograms(new SupplyOn());
-            }
-            if (rBtnSupplyOff.Checked)
-            {
-                testProgram.AddPrograms(new SupplyOff());
-            }
-            if (rBtnParamMeasureVoltage.Checked)
-            {
-                testProgram.AddPrograms(new ParamMeasureTemperature());
-            }
-            if (rBtnSetTemperature.Checked)
-            {
-                testProgram.AddPrograms(new SetTemperature());
-            }
-            if (rBtnDelayBetwenMesaure.Checked)
-            {
-                testProgram.AddPrograms(new DelayBetwenMesaure());//добавить данные 
-            }
-            if (rBtnCycle.Checked)
-            {
-                testProgram.AddPrograms(new Cycle());//добавить данные 
-            }
+            //...или  иначе
         }
 
+        //пернессти в контроллер 
+        //void CreateOrChangeTestPrograGroupsEnadled(bool enabled = false)
+        //{
+        //    gBoxModul.Enabled = enabled;
+        //    gBoxCreateOrChangeTestProgram.Enabled = enabled;
+        //}
 
     }
 }

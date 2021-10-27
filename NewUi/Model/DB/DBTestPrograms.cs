@@ -1,4 +1,4 @@
-﻿namespace NewUi.DB
+﻿namespace NewUi
 {
     public class DBTestPrograms
     {

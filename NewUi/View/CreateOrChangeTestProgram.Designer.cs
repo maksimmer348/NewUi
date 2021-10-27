@@ -35,6 +35,7 @@ namespace NewUi.View
             this.btnUpModul = new System.Windows.Forms.Button();
             this.btnDownModul = new System.Windows.Forms.Button();
             this.gBoxModul = new System.Windows.Forms.GroupBox();
+            this.rBtnSupplyOff = new System.Windows.Forms.RadioButton();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -62,7 +63,8 @@ namespace NewUi.View
             this.btnAddTestProgram = new System.Windows.Forms.Button();
             this.btnDelTestProgram = new System.Windows.Forms.Button();
             this.rTbTestProgramList = new System.Windows.Forms.RichTextBox();
-            this.rBtnSupplyOff = new System.Windows.Forms.RadioButton();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.gBoxModul.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rBtnCycleMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureMin)).BeginInit();
@@ -95,7 +97,7 @@ namespace NewUi.View
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 36);
+            this.label2.Location = new System.Drawing.Point(6, 54);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(227, 15);
             this.label2.TabIndex = 6;
@@ -103,7 +105,7 @@ namespace NewUi.View
             // 
             // btnUpModul
             // 
-            this.btnUpModul.Location = new System.Drawing.Point(245, 160);
+            this.btnUpModul.Location = new System.Drawing.Point(245, 172);
             this.btnUpModul.Name = "btnUpModul";
             this.btnUpModul.Size = new System.Drawing.Size(22, 23);
             this.btnUpModul.TabIndex = 7;
@@ -112,7 +114,7 @@ namespace NewUi.View
             // 
             // btnDownModul
             // 
-            this.btnDownModul.Location = new System.Drawing.Point(245, 189);
+            this.btnDownModul.Location = new System.Drawing.Point(245, 201);
             this.btnDownModul.Name = "btnDownModul";
             this.btnDownModul.Size = new System.Drawing.Size(22, 23);
             this.btnDownModul.TabIndex = 8;
@@ -145,6 +147,17 @@ namespace NewUi.View
             this.gBoxModul.TabStop = false;
             this.gBoxModul.Text = "Модули";
             this.gBoxModul.Enter += new System.EventHandler(this.gBoxModul_Enter);
+            // 
+            // rBtnSupplyOff
+            // 
+            this.rBtnSupplyOff.AutoSize = true;
+            this.rBtnSupplyOff.Location = new System.Drawing.Point(21, 115);
+            this.rBtnSupplyOff.Name = "rBtnSupplyOff";
+            this.rBtnSupplyOff.Size = new System.Drawing.Size(158, 19);
+            this.rBtnSupplyOff.TabIndex = 27;
+            this.rBtnSupplyOff.TabStop = true;
+            this.rBtnSupplyOff.Text = "Выключение источника";
+            this.rBtnSupplyOff.UseVisualStyleBackColor = true;
             // 
             // label8
             // 
@@ -296,6 +309,8 @@ namespace NewUi.View
             // 
             // gBoxCreateOrChangeTestProgram
             // 
+            this.gBoxCreateOrChangeTestProgram.Controls.Add(this.label3);
+            this.gBoxCreateOrChangeTestProgram.Controls.Add(this.textBox1);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.gridModulList);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.btnAddModul);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.btnResetModul);
@@ -318,12 +333,12 @@ namespace NewUi.View
             this.gridModulList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.modul,
             this.unit});
-            this.gridModulList.Location = new System.Drawing.Point(7, 54);
+            this.gridModulList.Location = new System.Drawing.Point(7, 77);
             this.gridModulList.Name = "gridModulList";
             this.gridModulList.ReadOnly = true;
             this.gridModulList.RowHeadersVisible = false;
             this.gridModulList.RowTemplate.Height = 25;
-            this.gridModulList.Size = new System.Drawing.Size(232, 288);
+            this.gridModulList.Size = new System.Drawing.Size(232, 265);
             this.gridModulList.TabIndex = 10;
             // 
             // modul
@@ -408,16 +423,21 @@ namespace NewUi.View
             this.rTbTestProgramList.TabIndex = 0;
             this.rTbTestProgramList.Text = "";
             // 
-            // rBtnSupplyOff
+            // textBox1
             // 
-            this.rBtnSupplyOff.AutoSize = true;
-            this.rBtnSupplyOff.Location = new System.Drawing.Point(21, 115);
-            this.rBtnSupplyOff.Name = "rBtnSupplyOff";
-            this.rBtnSupplyOff.Size = new System.Drawing.Size(158, 19);
-            this.rBtnSupplyOff.TabIndex = 27;
-            this.rBtnSupplyOff.TabStop = true;
-            this.rBtnSupplyOff.Text = "Выключение источника";
-            this.rBtnSupplyOff.UseVisualStyleBackColor = true;
+            this.textBox1.Location = new System.Drawing.Point(112, 26);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(155, 23);
+            this.textBox1.TabIndex = 11;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(100, 15);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Имя программы";
             // 
             // CreateOrChangeTestProgram
             // 
@@ -485,5 +505,7 @@ namespace NewUi.View
         private System.Windows.Forms.DataGridViewTextBoxColumn unit;
         private System.Windows.Forms.Button btnChangeTestProgram;
         private System.Windows.Forms.RadioButton rBtnSupplyOff;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

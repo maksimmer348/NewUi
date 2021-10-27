@@ -11,5 +11,10 @@ namespace NewUi
         //дождатся леши
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Temperature { get; set; }
+        public string ToFormString()
+        {
+            return $"{Temperature} °C";
+        }
     }
 }
