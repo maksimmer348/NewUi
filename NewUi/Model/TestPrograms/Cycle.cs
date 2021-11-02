@@ -8,18 +8,7 @@ namespace NewUi
     public class Cycle : TestModule
     {
         //в цике должны сущетсвовавать замер парамтеров, задеркжка, вклл выкл источника
-        [Required]
-        private string _name;
-
-        public override string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value;
-            }
-        }
-
+        
         public int Hour { get; set; }
         public int Min { get; set; }
         
@@ -30,7 +19,7 @@ namespace NewUi
         }
 
 
-        public override string ToFormString()
+        public override string DescriptionModule()
         {
             return $"{Hour}час. ;{Min}мин.";
         }

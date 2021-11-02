@@ -15,10 +15,7 @@ namespace NewUi
             //TODO придумтаь где будет преобразование
            
         }
-
         //дождатся леши
-        
-        public  string Name { get; set; } 
         public int Temperature { get; set; }
 
         public void SetTemperatureMeasurement(double temperature)
@@ -26,7 +23,7 @@ namespace NewUi
            
         }
         
-        public override string ToFormString()
+        public override string DescriptionModule()
         {
             return $"{Temperature} °C";
         }

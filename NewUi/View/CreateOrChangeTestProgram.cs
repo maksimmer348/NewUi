@@ -22,10 +22,10 @@ namespace NewUi.View
             dGridModulesList.AllowUserToAddRows = false;
             dGridTestProgramList.AllowUserToAddRows = false;
 
-            testProgramController.TestProgramsListChanged += TestProgramsChangedList;
-            testProgramController.SelectedTestProgramChanged += SelectedTestProgramChanged;
-
-            testProgramController.Load();
+            // testProgramController.TestProgramsListChanged += TestProgramsChangedList;
+            // testProgramController.SelectedTestProgramChanged += SelectedTestProgramChanged;
+            //
+            // testProgramController.Load();
         }
 
         private void SelectedTestProgramChanged(TestProgram testProgram)
@@ -51,7 +51,7 @@ namespace NewUi.View
             dGridModulesList.Rows.Clear();
             foreach (var module in programsModulesList)
             {
-                dGridModulesList.Rows.Add(module.Name, module.ToFormString());
+                dGridModulesList.Rows.Add(module.Name, module.DescriptionModule());
             }
         }
 
@@ -67,8 +67,8 @@ namespace NewUi.View
                 Name = tBoxTestProgramName.Text
             };
 
-            testProgramController.TestProgramsList.Add(program);
-            testProgramController.OnTestProgramsChanged();
+            //testProgramController.TestProgramsList.Add(program);
+            //testProgramController.OnTestProgramsChanged();
         }
 
 
@@ -84,7 +84,7 @@ namespace NewUi.View
         private void btnAddModul_Click(object sender, EventArgs e)
         {
             var selectedTestProgram = testProgramController.SelectedTestProgram;
-            selectedTestProgram.ModulesList ??= new List<TestModule>();
+            //selectedTestProgram.ModulesList ??= new List<TestModule>();
             if (rBtnContactCheck.Checked)
             {
                 selectedTestProgram.ModulesList.Add(new ContactCheck() {Name = "Проверка контактирования"});

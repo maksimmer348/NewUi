@@ -8,13 +8,16 @@ namespace NewUi
     class TestProgramController
     {
         private readonly ApplicationContext db;
+    
+        public TestProgram TestProgram = new TestProgram();
         
+    
         public event Action<List<TestProgram>> TestProgramsListChanged;
         public event Action<TestProgram> SelectedTestProgramChanged;
         
         private List<TestProgram> testProgramsList;
         private TestProgram selectedTestProgram;
-
+        
         public List<TestProgram> TestProgramsList
         {
             get => testProgramsList;
@@ -25,7 +28,6 @@ namespace NewUi
             }
         }
         
-
         public TestProgram SelectedTestProgram
         {
             get => selectedTestProgram;
@@ -35,18 +37,18 @@ namespace NewUi
                 OnSelectedTestProgramsChanged();
             }
         }
-
+        
         public TestProgramController()
         {
             db = ApplicationContext.Instance;
         }
         
-  
+        
         public void Load()
         {
             TestProgramsList = db.TestPrograms.Include(e=>e.ModulesList).ToList();
         }
-
+        
         public void OnTestProgramsChanged()
         {
             
@@ -56,8 +58,8 @@ namespace NewUi
             TestProgramsListChanged?.Invoke(TestProgramsList);
             
         }
-
-
+        
+        
         public void OnSelectedTestProgramsChanged()
         {
             SelectedTestProgramChanged?.Invoke(SelectedTestProgram);

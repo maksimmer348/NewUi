@@ -2,13 +2,11 @@
 
 namespace NewUi
 {
-    [Table("SupplyOffs")]
+    [Table("SupplysOff")]
     public class SupplyOff: TestModule
     {
-       
-        public  string Name { get; set; }
         public int UnquieSupplyOn = 2;
-        public override string ToFormString()
+        public override string DescriptionModule()
         {
             return "-";
         }

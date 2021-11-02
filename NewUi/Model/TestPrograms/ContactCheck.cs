@@ -17,11 +17,9 @@ namespace NewUi
         //то проверка пройдено, если контактировние не прошло проверяем сллеудющщее изделлие и так до 24,
         //если все прошли проддлаажем цикл испытаний если, НЕТ по результаату проверки опратору выдается сообщение о том какие випы 
         //не прошли испытания.
-        [Required]
-        public override string Name { get; set; }
 
         public int UnquieField1 { get; set; } = 1;
-        public override string ToFormString()
+        public override string DescriptionModule()
         {
             return "См. в Изделии";
         }

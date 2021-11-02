@@ -9,8 +9,6 @@ namespace NewUi
     {
         //просто задержка между операциями без изменения их 
         
-        [Required]
-        public override string Name { get; set; }
         //public DateTime CycleTime { get; set; }
         public int Min { get; set; }
         public int Sec { get; set; }
@@ -19,7 +17,7 @@ namespace NewUi
             //TODO где производить каст
          
         }
-        public override string ToFormString()
+        public override string DescriptionModule()
         {
             return $"{Min}мин. ;{Sec}сек.";
         }
