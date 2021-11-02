@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,131 +14,85 @@ namespace NewUi.View
 {
     public partial class CreateOrChangeTestProgram : Form
     {
-        private TestProgramController testProgramController = new();
+        Controller Controller = new();
+
 
         public CreateOrChangeTestProgram()
         {
             InitializeComponent();
-
             dGridModulesList.AllowUserToAddRows = false;
-            dGridTestProgramList.AllowUserToAddRows = false;
-
-            // testProgramController.TestProgramsListChanged += TestProgramsChangedList;
-            // testProgramController.SelectedTestProgramChanged += SelectedTestProgramChanged;
-            //
-            // testProgramController.Load();
         }
 
-        private void SelectedTestProgramChanged(TestProgram testProgram)
-        {
-            testProgram.ModulesListChanged -= ModulesListChanged;
-            testProgram.ModulesListChanged += ModulesListChanged;
-            testProgram.InvokeModulesListChanged();
-        }
-
-        private void TestProgramsChangedList(List<TestProgram> programsList)
-        {
-            dGridTestProgramList.Rows.Clear();
-            foreach (var program in programsList)
-            {
-                var row = new DataGridViewRow();
-                row.Cells.Add(new DataGridViewTextBoxCell() {Value = program.Name, Tag = program});
-                dGridTestProgramList.Rows.Add(row);
-            }
-        }
-
-        private void ModulesListChanged(List<TestModule> programsModulesList)
-        {
-            dGridModulesList.Rows.Clear();
-            foreach (var module in programsModulesList)
-            {
-                dGridModulesList.Rows.Add(module.Name, module.DescriptionModule());
-            }
-        }
-
-
-        private void CreateTestProgram_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void btnAddTestProgram_Click(object sender, EventArgs e) //добавить программу
-        {
-            TestProgram program = new()
-            {
-                Name = tBoxTestProgramName.Text
-            };
-
-            //testProgramController.TestProgramsList.Add(program);
-            //testProgramController.OnTestProgramsChanged();
-        }
-
-
-        private void btnChangeTestProgram_Click(object sender, EventArgs e)
-        {
-        }
-
-
-        private void gBoxModul_Enter(object sender, EventArgs e)
-        {
-        }
+        private Random r = new Random();
 
         private void btnAddModul_Click(object sender, EventArgs e)
         {
-            var selectedTestProgram = testProgramController.SelectedTestProgram;
-            //selectedTestProgram.ModulesList ??= new List<TestModule>();
+            var selectedTestProgram = Controller.SelectedTestProgram;
             if (rBtnContactCheck.Checked)
             {
-                selectedTestProgram.ModulesList.Add(new ContactCheck() {Name = "Проверка контактирования"});
+                ContactCheck contactCheck = new ContactCheck() {Name = "Проверка контактирования"};
+                Controller.ModuleTempList.Add(contactCheck);
+                //selectedTestProgram.AddModule(Controller.ContactCheck(selectedTestProgram));
             }
 
             if (rBtnSupplyOn.Checked)
             {
-                selectedTestProgram.ModulesList.Add(new SupplyOn() {Name = "Включение источника"});
+                selectedTestProgram.ModulesList.Add(new SupplyOn()
+                    {TestProgram = selectedTestProgram, Name = "Включение источника"});
             }
 
             if (rBtnSupplyOff.Checked)
             {
-                selectedTestProgram.ModulesList.Add(new SupplyOff() {Name = "Выключение источника"});
+                selectedTestProgram.ModulesList.Add(new SupplyOff()
+                    {TestProgram = selectedTestProgram, Name = "Выключение источника"});
             }
 
             if (rBtnParamMeasureVoltage.Checked)
             {
                 selectedTestProgram.ModulesList
-                    .Add(new OutputVoltageMeasure() {Name = "Замер выходного напряжения"});
+                    .Add(new OutputVoltageMeasure()
+                        {TestProgram = selectedTestProgram, Name = "Замер выходного напряжения"});
             }
 
             if (rBtnSetTemperature.Checked)
             {
                 selectedTestProgram.ModulesList.Add(
-                    new SetTemperature() {Name = "Установка температуры"});
+                    new SetTemperature() {TestProgram = selectedTestProgram, Name = "Установка температуры"});
             }
 
             if (rBtnParamMeasureTemperature.Checked)
             {
                 selectedTestProgram.ModulesList.Add(
-                    new ParamMeasurementTemperature() {Name = "Замер температуры"});
+                    new ParamMeasurementTemperature() {TestProgram = selectedTestProgram, Name = "Замер температуры"});
             }
 
             if (rBtnDelayBetwenMesaure.Checked)
             {
                 selectedTestProgram.ModulesList.Add(
-                    new DelayBetweenMeasurement() {Name = "Задержка между операциями"});
+                    new DelayBetweenMeasurement()
+                        {TestProgram = selectedTestProgram, Name = "Задержка между операциями"});
             }
 
             if (rBtnCycle.Checked)
             {
-                selectedTestProgram.ModulesList.Add(new Cycle() {Name = "Цикл измерений"});
+                selectedTestProgram.ModulesList.Add(new Cycle()
+                    {TestProgram = selectedTestProgram, Name = "Цикл измерений"});
             }
-
-            testProgramController.OnSelectedTestProgramsChanged();
         }
-
-        private void dGridTestProgramList_SelectionChanged(object sender, EventArgs e)
+        private void btnCreateTestProgram_Click(object sender, EventArgs e)
         {
-            var cells = dGridTestProgramList.SelectedCells;
-
-            if (cells.Count > 0)
-                testProgramController.SelectedTestProgram = (TestProgram) cells[0].Tag;
+           Controller.
         }
+        
+        private void btnAddTestProgram_Click(object sender, EventArgs e) //добавить программу
+        {
+            // Controller.db.SaveChanges();
+        }
+
+        private void listBoxProgramsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+      
     }
 }

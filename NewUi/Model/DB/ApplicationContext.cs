@@ -24,7 +24,7 @@ namespace NewUi
         public DbSet<SupplyOn> SupplysOn { get; set; }
         public DbSet<SupplyOff> SupplysOff { get; set; }
         //Переопределение у класса контекста данных метода
-        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite(@"Data Source=Users.db");//В этот метод передается объект DbContextOptionsBuilder,
+        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite(@"Data Source=TestPrograms.db");//В этот метод передается объект DbContextOptionsBuilder,
                                                                                                                    // который позволяет создать параметры подключения. Для их создания вызывается метод UseSqlServer, в который передается строка подключения.
        
     }

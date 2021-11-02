@@ -61,12 +61,11 @@ namespace NewUi.View
             this.tBoxTestProgramName = new System.Windows.Forms.TextBox();
             this.btnAddModul = new System.Windows.Forms.Button();
             this.gBoxTestProgramList = new System.Windows.Forms.GroupBox();
-            this.dGridTestProgramList = new System.Windows.Forms.DataGridView();
-            this.TestProgramName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.listBoxProgramsList = new System.Windows.Forms.ListBox();
             this.btnChangeTestProgram = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnAddTestProgram = new System.Windows.Forms.Button();
             this.btnDelTestProgram = new System.Windows.Forms.Button();
+            this.btnCreateTestProgram = new System.Windows.Forms.Button();
             this.gBoxModul.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureMin)).BeginInit();
@@ -76,7 +75,6 @@ namespace NewUi.View
             this.gBoxCreateOrChangeTestProgram.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dGridModulesList)).BeginInit();
             this.gBoxTestProgramList.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dGridTestProgramList)).BeginInit();
             this.SuspendLayout();
             // 
             // btnResetModul
@@ -100,7 +98,7 @@ namespace NewUi.View
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 54);
+            this.label2.Location = new System.Drawing.Point(6, 85);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(227, 15);
             this.label2.TabIndex = 6;
@@ -150,7 +148,6 @@ namespace NewUi.View
             this.gBoxModul.TabIndex = 10;
             this.gBoxModul.TabStop = false;
             this.gBoxModul.Text = "Модули";
-            this.gBoxModul.Enter += new System.EventHandler(this.gBoxModul_Enter);
             // 
             // rBtnParamMeasureTemperature
             // 
@@ -324,6 +321,7 @@ namespace NewUi.View
             // 
             // gBoxCreateOrChangeTestProgram
             // 
+            this.gBoxCreateOrChangeTestProgram.Controls.Add(this.btnCreateTestProgram);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.dGridModulesList);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.label3);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.tBoxTestProgramName);
@@ -347,11 +345,11 @@ namespace NewUi.View
             this.dGridModulesList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Modul,
             this.ModulData});
-            this.dGridModulesList.Location = new System.Drawing.Point(6, 77);
+            this.dGridModulesList.Location = new System.Drawing.Point(6, 103);
             this.dGridModulesList.Name = "dGridModulesList";
             this.dGridModulesList.RowHeadersVisible = false;
             this.dGridModulesList.RowTemplate.Height = 25;
-            this.dGridModulesList.Size = new System.Drawing.Size(233, 268);
+            this.dGridModulesList.Size = new System.Drawing.Size(233, 242);
             this.dGridModulesList.TabIndex = 29;
             // 
             // Modul
@@ -392,10 +390,9 @@ namespace NewUi.View
             // 
             // gBoxTestProgramList
             // 
-            this.gBoxTestProgramList.Controls.Add(this.dGridTestProgramList);
+            this.gBoxTestProgramList.Controls.Add(this.listBoxProgramsList);
             this.gBoxTestProgramList.Controls.Add(this.btnChangeTestProgram);
             this.gBoxTestProgramList.Controls.Add(this.label1);
-            this.gBoxTestProgramList.Controls.Add(this.btnAddTestProgram);
             this.gBoxTestProgramList.Controls.Add(this.btnDelTestProgram);
             this.gBoxTestProgramList.Location = new System.Drawing.Point(12, 12);
             this.gBoxTestProgramList.Name = "gBoxTestProgramList";
@@ -404,34 +401,23 @@ namespace NewUi.View
             this.gBoxTestProgramList.TabStop = false;
             this.gBoxTestProgramList.Text = "Выбор программы испытания";
             // 
-            // dGridTestProgramList
+            // listBoxProgramsList
             // 
-            this.dGridTestProgramList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dGridTestProgramList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dGridTestProgramList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.TestProgramName});
-            this.dGridTestProgramList.Location = new System.Drawing.Point(6, 45);
-            this.dGridTestProgramList.Name = "dGridTestProgramList";
-            this.dGridTestProgramList.RowHeadersVisible = false;
-            this.dGridTestProgramList.RowTemplate.Height = 25;
-            this.dGridTestProgramList.Size = new System.Drawing.Size(233, 297);
-            this.dGridTestProgramList.TabIndex = 30;
-            this.dGridTestProgramList.SelectionChanged += new System.EventHandler(this.dGridTestProgramList_SelectionChanged);
-            // 
-            // TestProgramName
-            // 
-            this.TestProgramName.HeaderText = "Программа";
-            this.TestProgramName.Name = "TestProgramName";
+            this.listBoxProgramsList.FormattingEnabled = true;
+            this.listBoxProgramsList.ItemHeight = 15;
+            this.listBoxProgramsList.Location = new System.Drawing.Point(6, 56);
+            this.listBoxProgramsList.Name = "listBoxProgramsList";
+            this.listBoxProgramsList.Size = new System.Drawing.Size(233, 289);
+            this.listBoxProgramsList.TabIndex = 14;
             // 
             // btnChangeTestProgram
             // 
-            this.btnChangeTestProgram.Location = new System.Drawing.Point(88, 348);
+            this.btnChangeTestProgram.Location = new System.Drawing.Point(6, 348);
             this.btnChangeTestProgram.Name = "btnChangeTestProgram";
             this.btnChangeTestProgram.Size = new System.Drawing.Size(70, 23);
             this.btnChangeTestProgram.TabIndex = 13;
             this.btnChangeTestProgram.Text = "Изменить";
             this.btnChangeTestProgram.UseVisualStyleBackColor = true;
-            this.btnChangeTestProgram.Click += new System.EventHandler(this.btnChangeTestProgram_Click);
             // 
             // label1
             // 
@@ -442,16 +428,6 @@ namespace NewUi.View
             this.label1.TabIndex = 11;
             this.label1.Text = "Набор программ испытаний";
             // 
-            // btnAddTestProgram
-            // 
-            this.btnAddTestProgram.Location = new System.Drawing.Point(6, 348);
-            this.btnAddTestProgram.Name = "btnAddTestProgram";
-            this.btnAddTestProgram.Size = new System.Drawing.Size(70, 23);
-            this.btnAddTestProgram.TabIndex = 12;
-            this.btnAddTestProgram.Text = "Добавить";
-            this.btnAddTestProgram.UseVisualStyleBackColor = true;
-            this.btnAddTestProgram.Click += new System.EventHandler(this.btnAddTestProgram_Click);
-            // 
             // btnDelTestProgram
             // 
             this.btnDelTestProgram.Location = new System.Drawing.Point(169, 348);
@@ -460,6 +436,16 @@ namespace NewUi.View
             this.btnDelTestProgram.TabIndex = 11;
             this.btnDelTestProgram.Text = "Удалить";
             this.btnDelTestProgram.UseVisualStyleBackColor = true;
+            // 
+            // btnCreateTestProgram
+            // 
+            this.btnCreateTestProgram.Location = new System.Drawing.Point(6, 56);
+            this.btnCreateTestProgram.Name = "btnCreateTestProgram";
+            this.btnCreateTestProgram.Size = new System.Drawing.Size(261, 23);
+            this.btnCreateTestProgram.TabIndex = 15;
+            this.btnCreateTestProgram.Text = "Создать";
+            this.btnCreateTestProgram.UseVisualStyleBackColor = true;
+            this.btnCreateTestProgram.Click += new System.EventHandler(this.btnCreateTestProgram_Click);
             // 
             // CreateOrChangeTestProgram
             // 
@@ -474,7 +460,6 @@ namespace NewUi.View
             this.MinimizeBox = false;
             this.Name = "CreateOrChangeTestProgram";
             this.Text = "CreateTestProgram";
-            this.Load += new System.EventHandler(this.CreateTestProgram_Load);
             this.gBoxModul.ResumeLayout(false);
             this.gBoxModul.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleMin)).EndInit();
@@ -487,7 +472,6 @@ namespace NewUi.View
             ((System.ComponentModel.ISupportInitialize)(this.dGridModulesList)).EndInit();
             this.gBoxTestProgramList.ResumeLayout(false);
             this.gBoxTestProgramList.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dGridTestProgramList)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -520,7 +504,6 @@ namespace NewUi.View
         private System.Windows.Forms.Button btnAddModul;
         private System.Windows.Forms.GroupBox gBoxTestProgramList;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnAddTestProgram;
         private System.Windows.Forms.Button btnDelTestProgram;
         private System.Windows.Forms.Button btnChangeTestProgram;
         private System.Windows.Forms.RadioButton rBtnSupplyOff;
@@ -530,7 +513,7 @@ namespace NewUi.View
         private System.Windows.Forms.DataGridView dGridModulesList;
         private System.Windows.Forms.DataGridViewTextBoxColumn Modul;
         private System.Windows.Forms.DataGridViewTextBoxColumn ModulData;
-        private System.Windows.Forms.DataGridView dGridTestProgramList;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TestProgramName;
+        private System.Windows.Forms.ListBox listBoxProgramsList;
+        private System.Windows.Forms.Button btnCreateTestProgram;
     }
 }
