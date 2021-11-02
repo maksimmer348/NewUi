@@ -1,24 +1,38 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NewUi
 {
-    public class Cycle : ITestProgram
+    [Table("Cycles")]
+    public class Cycle : TestModule
     {
         //в цике должны сущетсвовавать замер парамтеров, задеркжка, вклл выкл источника
-        //
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Hour { get; set; }
-        public DateTime CycleTime { get; set; }
+        [Required]
+        private string _name;
 
-        void CucleTimeSet(int hour,int min)
+        public override string Name
         {
-            
+            get => _name;
+            set
+            {
+                _name = value;
+            }
         }
 
-        public string ToFormString()
+        public int Hour { get; set; }
+        public int Min { get; set; }
+        
+        // public DateTime CycleTime { get; set; }
+        public Cycle()
         {
-            return $"{CycleTime.Hour}час. ;{CycleTime.Minute}мин.";
+            //TODO придумать где будет преборазование
+        }
+
+
+        public override string ToFormString()
+        {
+            return $"{Hour}час. ;{Min}мин.";
         }
     }
 }

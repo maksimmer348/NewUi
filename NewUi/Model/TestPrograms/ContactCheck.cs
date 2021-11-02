@@ -1,7 +1,10 @@
-﻿namespace NewUi
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NewUi
 {
-    
-public class ContactCheck : ITestProgram
+    [Table("ContactChecks")]
+    public class ContactCheck : TestModule
     {
         //TODO есть ли смысл добавлять проверка контактирования в UI
 
@@ -14,10 +17,11 @@ public class ContactCheck : ITestProgram
         //то проверка пройдено, если контактировние не прошло проверяем сллеудющщее изделлие и так до 24,
         //если все прошли проддлаажем цикл испытаний если, НЕТ по результаату проверки опратору выдается сообщение о том какие випы 
         //не прошли испытания.
+        [Required]
+        public override string Name { get; set; }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string ToFormString()
+        public int UnquieField1 { get; set; } = 1;
+        public override string ToFormString()
         {
             return "См. в Изделии";
         }

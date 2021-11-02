@@ -1,39 +1,67 @@
-﻿namespace NewUi
-{
-    public class TestProgramsController
-    {
-        public TestProgramBuilder TestProgram = new TestProgramBuilder();//при созддании программы сюда вписыват имя из тексбокса
-         
-        public void SelectTestProgram(TypesTestProgram typesProgram)
-        {
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
-            switch (typesProgram)
+namespace NewUi
+{
+    class TestProgramController
+    {
+        private readonly ApplicationContext db;
+        
+        public event Action<List<TestProgram>> TestProgramsListChanged;
+        public event Action<TestProgram> SelectedTestProgramChanged;
+        
+        private List<TestProgram> testProgramsList;
+        private TestProgram selectedTestProgram;
+
+        public List<TestProgram> TestProgramsList
+        {
+            get => testProgramsList;
+            set
             {
-                case TypesTestProgram.ContactCheck:
-                    TestProgram.AddProgram(new ContactCheck());
-                    break;
-                case TypesTestProgram.SupplyOn:
-                    TestProgram.AddProgram(new SupplyOn());
-                    break;
-                case TypesTestProgram.SupplyOff:
-                    TestProgram.AddProgram(new SupplyOff());
-                    break;
-                case TypesTestProgram.OutputVoltageMeasure:
-                    TestProgram.AddProgram(new OutputVoltageMeasure());
-                    break;
-                case TypesTestProgram.SetTemperature:
-                    TestProgram.AddProgram(new SetTemperature());
-                    break;
-                case TypesTestProgram.ParamMeasureTemperature:
-                    TestProgram.AddProgram(new ParamMeasureTemperature());
-                    break;
-                case TypesTestProgram.DelayBetwenMesaure:
-                    TestProgram.AddProgram(new DelayBetwenMesaure());//добавить данные 
-                    break;
-                case TypesTestProgram.Cycle:
-                    TestProgram.AddProgram(new Cycle());//добавить данные 
-                    break;
+                testProgramsList = value;
+                OnTestProgramsChanged();
             }
+        }
+        
+
+        public TestProgram SelectedTestProgram
+        {
+            get => selectedTestProgram;
+            set
+            {
+                selectedTestProgram = value;
+                OnSelectedTestProgramsChanged();
+            }
+        }
+
+        public TestProgramController()
+        {
+            db = ApplicationContext.Instance;
+        }
+        
+  
+        public void Load()
+        {
+            TestProgramsList = db.TestPrograms.Include(e=>e.ModulesList).ToList();
+        }
+
+        public void OnTestProgramsChanged()
+        {
+            
+            db.TestPrograms.UpdateRange(testProgramsList);
+            db.SaveChanges();
+            
+            TestProgramsListChanged?.Invoke(TestProgramsList);
+            
+        }
+
+
+        public void OnSelectedTestProgramsChanged()
+        {
+            SelectedTestProgramChanged?.Invoke(SelectedTestProgram);
+            db.SaveChanges();
         }
     }
 }
