@@ -2,7 +2,7 @@
 
 namespace NewUi
 {
-    [Table("ParamMeasurementTemperatures    ")]
+    [Table("ParamMeasurementTemperatures")]
     public class ParamMeasurementTemperature : TestModule
     {
        //замер темпертуры в камере дождатся лешу

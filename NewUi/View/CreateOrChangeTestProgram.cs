@@ -19,15 +19,29 @@ namespace NewUi.View
         public CreateOrChangeTestProgram()
         {
             InitializeComponent();
+            Controller.TestProgramsListChanged += ControllerOnTestProgramsListChanged;
             dGridModulesList.AllowUserToAddRows = false;
+            Controller.Load();
+            
         }
 
+        private void ControllerOnTestProgramsListChanged(List<TestProgram> testPrograms)
+        {
+            listBoxProgramsList.Items.Clear();
+            foreach (var program in testPrograms)
+            {
+                listBoxProgramsList.Items.Add(program.Name+" "+ program.Id);
+            }
+        }
+
+        
+        
         #region додбавление программы в список и работа с этим списком
 
         /// <summary>
-        /// создатьь новую программу
+        /// создать новую программу
         /// </summary>
-        /// <param name="sender">создатьь</param>
+        /// <param name="sender">создать</param>
         /// <param name="e"></param>
         private void btnCreateTestProgram_Click(object sender, EventArgs e)
         {
@@ -92,7 +106,8 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnSaveTestProgram_Click(object sender, EventArgs e)
         {
-            Controller.AddingProgramToDb(tBoxTestProgramName.Text);
+            Controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
+           
         }
 
         /// <summary>
@@ -114,54 +129,54 @@ namespace NewUi.View
             TestModule testModule = null;
             if (rBtnContactCheck.Checked)
             {
-                testModule = new ContactCheck() {Name = "Проверка контактирования"};
+                testModule = new ContactCheck() {Name = "Проверка контактирования", ContactsCount = 1};
             }
+
             if (rBtnSupplyOn.Checked)
             {
-                testModule = new SupplyOn() { Name = "Включение источника"};
+                testModule = new SupplyOn() {Name = "Включение источника"};
             }
 
+            if (rBtnSupplyOff.Checked)
+            {
+                testModule = new SupplyOff() {Name = "Выключение источника"};
+            }
+
+            if (rBtnParamMeasureVoltage.Checked)
+            {
+                testModule = new SupplyOff() {Name = "Замер выходного напряжения"};
+            }
+
+            if (rBtnSetTemperature.Checked)
+            {
+                testModule = new SetTemperature()
+                    {Name = "Установка температуры", Temperature = numUpSetTemperature.Value};
+            }
+
+            if (rBtnParamMeasureTemperature.Checked)
+            {
+                testModule = new ParamMeasurementTemperature() {Name = "Замер температуры"};
+            }
+            if (rBtnDelayBetwenMesaure.Checked)
+            {
+                testModule = new DelayBetweenMeasurement()
+                {
+                    Name = "Задержка между операциями",
+                    Min = numUpDelayBetwenMesaureMin.Value,
+                    Sec = numUpDelayBetwenMesaureSec.Value
+                };
+            }
+            if (rBtnCycle.Checked)
+            {
+                testModule = new Cycle()
+                {
+                    Name = "Цикл измерений",
+                    Hour = numUpCycleHour.Value,
+                    Min = numUpCycleMin.Value
+                };
+            }
             Controller.AddingModuleToProgram(testModule);
-            //
-            // if (rBtnSupplyOff.Checked)
-            // {
-            //     selectedTestProgram.ModulesList.Add(new SupplyOff()
-            //         {TestProgram = selectedTestProgram, Name = "Выключение источника"});
-            // }
-            //
-            // if (rBtnParamMeasureVoltage.Checked)
-            // {
-            //     selectedTestProgram.ModulesList
-            //         .Add(new OutputVoltageMeasure()
-            //             {TestProgram = selectedTestProgram, Name = "Замер выходного напряжения"});
-            // }
-            //
-            // if (rBtnSetTemperature.Checked)
-            // {
-            //     selectedTestProgram.ModulesList.Add(
-            //         new SetTemperature() {TestProgram = selectedTestProgram, Name = "Установка температуры"});
-            // }
-            //
-            // if (rBtnParamMeasureTemperature.Checked)
-            // {
-            //     selectedTestProgram.ModulesList.Add(
-            //         new ParamMeasurementTemperature() {TestProgram = selectedTestProgram, Name = "Замер температуры"});
-            // }
-            //
-            // if (rBtnDelayBetwenMesaure.Checked)
-            // {
-            //     selectedTestProgram.ModulesList.Add(
-            //         new DelayBetweenMeasurement()
-            //             {TestProgram = selectedTestProgram, Name = "Задержка между операциями"});
-            // }
-            // if (rBtnCycle.Checked)
-            // {
-            //     selectedTestProgram.ModulesList.Add(new Cycle()
-            //         {TestProgram = selectedTestProgram, Name = "Цикл измерений"});
-            // }
-
         }
-
         /// <summary>
         /// удаление модуля из программы
         /// </summary>
@@ -183,8 +198,8 @@ namespace NewUi.View
         /// <summary>
         ///  подвинуть модуль в проргамме на одно позицию вниз
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e">↓</param>
+        /// <param name="sender">↓</param>
+        /// <param name="e"></param>
         private void btnDownModul_Click(object sender, EventArgs e)
         {
         }

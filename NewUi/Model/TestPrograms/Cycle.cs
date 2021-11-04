@@ -9,8 +9,8 @@ namespace NewUi
     {
         //в цике должны сущетсвовавать замер парамтеров, задеркжка, вклл выкл источника
         
-        public int Hour { get; set; }
-        public int Min { get; set; }
+        public decimal Hour { get; set; }
+        public decimal Min { get; set; }
         
         // public DateTime CycleTime { get; set; }
         public Cycle()

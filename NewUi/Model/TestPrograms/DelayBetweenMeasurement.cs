@@ -10,8 +10,8 @@ namespace NewUi
         //просто задержка между операциями без изменения их 
         
         //public DateTime CycleTime { get; set; }
-        public int Min { get; set; }
-        public int Sec { get; set; }
+        public decimal Min { get; set; }
+        public decimal Sec { get; set; }
         public DelayBetweenMeasurement()
         {
             //TODO где производить каст

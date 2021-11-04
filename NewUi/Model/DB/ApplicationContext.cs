@@ -10,7 +10,7 @@ namespace NewUi
 
         public ApplicationContext()
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         //представляет набор сущностей, хранящихся в базе данных
@@ -19,6 +19,7 @@ namespace NewUi
         public DbSet<ContactCheck> ContactChecks { get; set; }
         public DbSet<Cycle> Cycles { get; set; }
         public DbSet<DelayBetweenMeasurement> DelayBetweenMeasurements { get; set; }
+        public DbSet<ParamMeasurementTemperature> ParamMeasurementTemperatures { get; set; }
         public DbSet<OutputVoltageMeasure> OutputVoltageMeasures { get; set; }
         public DbSet<SetTemperature> SetTemperatures { get; set; }
         public DbSet<SupplyOn> SupplysOn { get; set; }

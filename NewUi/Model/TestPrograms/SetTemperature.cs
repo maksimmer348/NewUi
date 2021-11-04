@@ -16,7 +16,7 @@ namespace NewUi
            
         }
         //дождатся леши
-        public int Temperature { get; set; }
+        public decimal Temperature { get; set; }
 
         public void SetTemperatureMeasurement(double temperature)
         {

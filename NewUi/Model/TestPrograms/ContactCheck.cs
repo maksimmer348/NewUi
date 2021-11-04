@@ -6,6 +6,7 @@ namespace NewUi
     [Table("ContactChecks")]
     public class ContactCheck : TestModule
     {
+        public static ContactCheck Default = new (){Name = "Насройка контактирования", ContactsCount = 1};
         //TODO есть ли смысл добавлять проверка контактирования в UI
 
         //проверка контактирования обязательна сдлетаь ее при создании нового испытания выполлняется один, раз потом блокируется

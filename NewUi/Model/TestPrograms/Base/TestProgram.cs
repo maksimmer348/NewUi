@@ -8,7 +8,7 @@ namespace NewUi
     {
         public int Id { get; set; }
         
-        //меняем или ищменяем имя вызывается ивент
+        //меняем или изменяем имя вызывается ивент
         public event Action<string> NameChanged;
         private string _name;
         public string Name
@@ -25,15 +25,16 @@ namespace NewUi
         }
         //меняем список из модулей срабатывает ивент
         public event Action<List<TestModule>> ModulesListChanged;
-        
-         public void InvokeModulesListChanged()
+        public void InvokeModulesListChanged()
          {
              ModulesListChanged?.Invoke(ModulesList);
          }
-        public List<TestModule> ModulesList = new();
-        public void AddModule(TestModule module)
+         public List<TestModule> ModulesList = new();
+        
+        public void AddModuleToList(TestModule module)
         {
             ModulesList.Add(module);
+            InvokeModulesListChanged();
         }
     }
 

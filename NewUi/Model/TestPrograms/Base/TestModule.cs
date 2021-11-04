@@ -7,6 +7,8 @@ namespace NewUi
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public int Priority { get; set; }
+        
         public int TestProgramId { get; set; }
         public TestProgram TestProgram { get; set; }
         public virtual string DescriptionModule()
