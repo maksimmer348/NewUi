@@ -15,14 +15,35 @@ namespace NewUi.View
     public partial class CreateOrChangeTestProgram : Form
     {
         Controller Controller = new();
-
+        
         public CreateOrChangeTestProgram()
         {
             InitializeComponent();
             Controller.TestProgramsListChanged += ControllerOnTestProgramsListChanged;
+            
+            //Controller.Program.NameChanged += ProgramOnNameChanged;
+            Controller.ModulesListChanged += ProgramOnModulesListChanged;
+            
             dGridModulesList.AllowUserToAddRows = false;
             Controller.Load();
-            
+        }
+        
+        private void ProgramOnModulesListChanged(TestProgram testProgram)
+        {
+            tBoxTestProgramName.Clear();
+            tBoxTestProgramName.Text = testProgram.Name;
+            dGridModulesList.Rows.Clear();
+            foreach (var module in testProgram.ModulesList)
+            {
+                var row = new DataGridViewRow();
+                row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.Name, Tag = module});
+                dGridModulesList.Rows.Add(row);
+            }
+        }
+
+        private void ProgramOnNameChanged(string testProgramName)
+        {
+            throw new NotImplementedException();
         }
 
         private void ControllerOnTestProgramsListChanged(List<TestProgram> testPrograms)
@@ -32,9 +53,8 @@ namespace NewUi.View
             {
                 listBoxProgramsList.Items.Add(program.Name+" "+ program.Id);
             }
+            
         }
-
-        
         
         #region додбавление программы в список и работа с этим списком
 
@@ -75,6 +95,8 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void listBoxProgramsList_SelectedIndexChanged_1(object sender, EventArgs e)
         {
+            var index = listBoxProgramsList.SelectedIndex;
+            Controller.SelectedTestProgram(index);
         }
 
         /// <summary>
@@ -107,7 +129,6 @@ namespace NewUi.View
         private void btnSaveTestProgram_Click(object sender, EventArgs e)
         {
             Controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
-           
         }
 
         /// <summary>

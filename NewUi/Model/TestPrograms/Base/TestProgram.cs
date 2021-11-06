@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 
 namespace NewUi
@@ -23,18 +24,40 @@ namespace NewUi
                 }
             }
         }
-        //меняем список из модулей срабатывает ивент
-        public event Action<List<TestModule>> ModulesListChanged;
-        public void InvokeModulesListChanged()
-         {
-             ModulesListChanged?.Invoke(ModulesList);
-         }
-         public List<TestModule> ModulesList = new();
+      
         
+         public List<TestModule> ModulesList = new();
+        /// <summary>
+        /// положвить один модуль в программу
+        /// </summary>
+        /// <param name="module">модуль</param>
         public void AddModuleToList(TestModule module)
         {
-            ModulesList.Add(module);
-            InvokeModulesListChanged();
+            if (module!= null)
+            {
+                ModulesList.Add(module);
+            }
+        }
+        
+        /// <summary>
+        ///  положить списко модулей в програамму
+        /// </summary>
+        /// <param name="modulesLists">список модулей</param>
+        public void AddModulesToList(params IEnumerable<TestModule>[] modulesLists)
+        {
+            List<TestModule> tempList = new();
+            foreach (var modulesList in modulesLists)
+            {
+                if (modulesList != null || modulesList.Any())
+                {
+                    foreach (var module in modulesList)
+                    {
+                        tempList.Add(module);
+                    }
+                    ModulesList = tempList.OrderBy(m => m.Priority).ToList();
+                    
+                }
+            }
         }
     }
 
