@@ -50,18 +50,15 @@ namespace NewUi.View
             this.rBtnContactCheck = new System.Windows.Forms.RadioButton();
             this.gBoxCreateOrChangeTestProgram = new System.Windows.Forms.GroupBox();
             this.btnCancelCreateTestProgram = new System.Windows.Forms.Button();
+            this.btnSaveTestProgram = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tBoxTestProgramName = new System.Windows.Forms.TextBox();
             this.gBoxModuleInProgram = new System.Windows.Forms.GroupBox();
             this.dGridModulesList = new System.Windows.Forms.DataGridView();
-            this.Modul = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ModulData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnUpModul = new System.Windows.Forms.Button();
             this.btnDownModul = new System.Windows.Forms.Button();
             this.btnDelModul = new System.Windows.Forms.Button();
             this.btnAddModul = new System.Windows.Forms.Button();
-            this.btnSaveTestProgram = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tBoxTestProgramName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.btnSelectTestProgram = new System.Windows.Forms.Button();
             this.listBoxProgramsList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -70,6 +67,8 @@ namespace NewUi.View
             this.gBoxTestProgramList = new System.Windows.Forms.GroupBox();
             this.btnChangeTestProgram = new System.Windows.Forms.Button();
             this.btnCreateTestProgram = new System.Windows.Forms.Button();
+            this.Modul = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ModulData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gBoxModule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureMin)).BeginInit();
@@ -282,14 +281,12 @@ namespace NewUi.View
             // gBoxCreateOrChangeTestProgram
             // 
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.btnCancelCreateTestProgram);
-            this.gBoxCreateOrChangeTestProgram.Controls.Add(this.gBoxModuleInProgram);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.btnSaveTestProgram);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.label3);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.tBoxTestProgramName);
-            this.gBoxCreateOrChangeTestProgram.Controls.Add(this.label2);
             this.gBoxCreateOrChangeTestProgram.Location = new System.Drawing.Point(265, 12);
             this.gBoxCreateOrChangeTestProgram.Name = "gBoxCreateOrChangeTestProgram";
-            this.gBoxCreateOrChangeTestProgram.Size = new System.Drawing.Size(275, 411);
+            this.gBoxCreateOrChangeTestProgram.Size = new System.Drawing.Size(275, 91);
             this.gBoxCreateOrChangeTestProgram.TabIndex = 11;
             this.gBoxCreateOrChangeTestProgram.TabStop = false;
             this.gBoxCreateOrChangeTestProgram.Text = "Создание/изменение программы испытания";
@@ -304,6 +301,32 @@ namespace NewUi.View
             this.btnCancelCreateTestProgram.UseVisualStyleBackColor = true;
             this.btnCancelCreateTestProgram.Click += new System.EventHandler(this.btnCancelCreateTestProgram_Click);
             // 
+            // btnSaveTestProgram
+            // 
+            this.btnSaveTestProgram.Location = new System.Drawing.Point(6, 56);
+            this.btnSaveTestProgram.Name = "btnSaveTestProgram";
+            this.btnSaveTestProgram.Size = new System.Drawing.Size(152, 23);
+            this.btnSaveTestProgram.TabIndex = 15;
+            this.btnSaveTestProgram.Text = "Сохранить";
+            this.btnSaveTestProgram.UseVisualStyleBackColor = true;
+            this.btnSaveTestProgram.Click += new System.EventHandler(this.btnSaveTestProgram_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(100, 15);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Имя программы";
+            // 
+            // tBoxTestProgramName
+            // 
+            this.tBoxTestProgramName.Location = new System.Drawing.Point(112, 26);
+            this.tBoxTestProgramName.Name = "tBoxTestProgramName";
+            this.tBoxTestProgramName.Size = new System.Drawing.Size(155, 23);
+            this.tBoxTestProgramName.TabIndex = 11;
+            // 
             // gBoxModuleInProgram
             // 
             this.gBoxModuleInProgram.Controls.Add(this.dGridModulesList);
@@ -311,7 +334,7 @@ namespace NewUi.View
             this.gBoxModuleInProgram.Controls.Add(this.btnDownModul);
             this.gBoxModuleInProgram.Controls.Add(this.btnDelModul);
             this.gBoxModuleInProgram.Controls.Add(this.btnAddModul);
-            this.gBoxModuleInProgram.Location = new System.Drawing.Point(0, 85);
+            this.gBoxModuleInProgram.Location = new System.Drawing.Point(265, 97);
             this.gBoxModuleInProgram.Name = "gBoxModuleInProgram";
             this.gBoxModuleInProgram.Size = new System.Drawing.Size(275, 326);
             this.gBoxModuleInProgram.TabIndex = 29;
@@ -327,20 +350,11 @@ namespace NewUi.View
             this.ModulData});
             this.dGridModulesList.Location = new System.Drawing.Point(6, 30);
             this.dGridModulesList.Name = "dGridModulesList";
+            this.dGridModulesList.ReadOnly = true;
             this.dGridModulesList.RowHeadersVisible = false;
             this.dGridModulesList.RowTemplate.Height = 25;
             this.dGridModulesList.Size = new System.Drawing.Size(233, 260);
             this.dGridModulesList.TabIndex = 29;
-            // 
-            // Modul
-            // 
-            this.Modul.HeaderText = "Модуль";
-            this.Modul.Name = "Modul";
-            // 
-            // ModulData
-            // 
-            this.ModulData.HeaderText = "Данные";
-            this.ModulData.Name = "ModulData";
             // 
             // btnUpModul
             // 
@@ -381,41 +395,6 @@ namespace NewUi.View
             this.btnAddModul.Text = "Добавить";
             this.btnAddModul.UseVisualStyleBackColor = true;
             this.btnAddModul.Click += new System.EventHandler(this.btnAddModul_Click);
-            // 
-            // btnSaveTestProgram
-            // 
-            this.btnSaveTestProgram.Location = new System.Drawing.Point(6, 56);
-            this.btnSaveTestProgram.Name = "btnSaveTestProgram";
-            this.btnSaveTestProgram.Size = new System.Drawing.Size(152, 23);
-            this.btnSaveTestProgram.TabIndex = 15;
-            this.btnSaveTestProgram.Text = "Сохранить";
-            this.btnSaveTestProgram.UseVisualStyleBackColor = true;
-            this.btnSaveTestProgram.Click += new System.EventHandler(this.btnSaveTestProgram_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 29);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 15);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Имя программы";
-            // 
-            // tBoxTestProgramName
-            // 
-            this.tBoxTestProgramName.Location = new System.Drawing.Point(112, 26);
-            this.tBoxTestProgramName.Name = "tBoxTestProgramName";
-            this.tBoxTestProgramName.Size = new System.Drawing.Size(155, 23);
-            this.tBoxTestProgramName.TabIndex = 11;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 97);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(227, 15);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Набор модулей входящих в программу";
             // 
             // btnSelectTestProgram
             // 
@@ -500,12 +479,27 @@ namespace NewUi.View
             this.btnCreateTestProgram.UseVisualStyleBackColor = true;
             this.btnCreateTestProgram.Click += new System.EventHandler(this.btnCreateTestProgram_Click);
             // 
+            // Modul
+            // 
+            this.Modul.HeaderText = "Модуль";
+            this.Modul.Name = "Modul";
+            this.Modul.ReadOnly = true;
+            this.Modul.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ModulData
+            // 
+            this.ModulData.HeaderText = "Данные";
+            this.ModulData.Name = "ModulData";
+            this.ModulData.ReadOnly = true;
+            this.ModulData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // CreateOrChangeTestProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(963, 466);
             this.Controls.Add(this.btnCancelTestProgram);
+            this.Controls.Add(this.gBoxModuleInProgram);
             this.Controls.Add(this.btnSelectTestProgram);
             this.Controls.Add(this.gBoxTestProgramList);
             this.Controls.Add(this.gBoxCreateOrChangeTestProgram);
@@ -561,18 +555,17 @@ namespace NewUi.View
         private System.Windows.Forms.Button btnSaveTestProgram;
         private System.Windows.Forms.GroupBox gBoxModuleInProgram;
         private System.Windows.Forms.DataGridView dGridModulesList;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Modul;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ModulData;
         private System.Windows.Forms.Button btnUpModul;
         private System.Windows.Forms.Button btnDownModul;
         private System.Windows.Forms.Button btnDelModul;
         private System.Windows.Forms.Button btnAddModul;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnSelectTestProgram;
         private System.Windows.Forms.Button btnCancelCreateTestProgram;
         private System.Windows.Forms.Button btnCancelTestProgram;
         private System.Windows.Forms.GroupBox gBoxTestProgramList;
         private System.Windows.Forms.Button btnChangeTestProgram;
         private System.Windows.Forms.Button btnCreateTestProgram;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Modul;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ModulData;
     }
 }

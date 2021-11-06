@@ -14,8 +14,9 @@ namespace NewUi.View
 {
     public partial class CreateOrChangeTestProgram : Form
     {
+      
         Controller Controller = new();
-        
+        UiController UiController = new();
         public CreateOrChangeTestProgram()
         {
             InitializeComponent();
@@ -26,6 +27,13 @@ namespace NewUi.View
             
             dGridModulesList.AllowUserToAddRows = false;
             Controller.Load();
+            
+            UiController.ProgramUiElementListAdd(gBoxModule, 
+                gBoxCreateOrChangeTestProgram,btnUpModul,btnDownModul,btnAddModul,btnDelModul);
+            
+            UiController.ProgramsListUiElementListAdd(gBoxTestProgramList);
+            
+            UiController.ProgramOrProgramsListUiMode(ModeEdit.ProgramsList);
         }
         
         private void ProgramOnModulesListChanged(TestProgram testProgram)
@@ -65,6 +73,7 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnCreateTestProgram_Click(object sender, EventArgs e)
         {
+           UiController.ProgramOrProgramsListUiMode(ModeEdit.Program);
             //создаем заготовкуу программы
             Controller.CreateProgram();
         }
@@ -76,6 +85,7 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnChangeTestProgram_Click(object sender, EventArgs e)
         {
+            UiController.ProgramOrProgramsListUiMode(ModeEdit.Program);
         }
 
         /// <summary>
@@ -128,6 +138,7 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnSaveTestProgram_Click(object sender, EventArgs e)
         {
+            UiController.ProgramOrProgramsListUiMode(ModeEdit.ProgramsList);
             Controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
         }
 
@@ -138,6 +149,7 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnCancelCreateTestProgram_Click(object sender, EventArgs e)
         {
+            UiController.ProgramOrProgramsListUiMode(ModeEdit.ProgramsList);
         }
 
         /// <summary>
