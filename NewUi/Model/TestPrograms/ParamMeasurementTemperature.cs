@@ -7,7 +7,7 @@ namespace NewUi
     {
        //замер темпертуры в камере дождатся лешу
        
-       public override string DescriptionModule()
+       public override object DescriptionModule()
        {
            return "См. в Текущем измерении";
        }

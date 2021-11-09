@@ -17,7 +17,7 @@ namespace NewUi
         
        // public int UnquieSupplyOn;
         
-        public override string DescriptionModule()
+        public override object DescriptionModule()
         {
             return "-";
         }

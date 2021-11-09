@@ -11,7 +11,7 @@ namespace NewUi
         
         public int TestProgramId { get; set; }
         public TestProgram TestProgram { get; set; }
-        public virtual string DescriptionModule()
+        public virtual object DescriptionModule()
         {
             return " ";
         }

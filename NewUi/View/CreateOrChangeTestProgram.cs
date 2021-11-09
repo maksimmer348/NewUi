@@ -14,29 +14,33 @@ namespace NewUi.View
 {
     public partial class CreateOrChangeTestProgram : Form
     {
-      
         Controller Controller = new();
         UiController UiController = new();
+
         public CreateOrChangeTestProgram()
         {
             InitializeComponent();
             Controller.TestProgramsListChanged += ControllerOnTestProgramsListChanged;
-            
+
             //Controller.Program.NameChanged += ProgramOnNameChanged;
-            Controller.ModulesListChanged += ProgramOnModulesListChanged;
-            
+            Controller.ModulesListChanged += OnModulesListChanged;
+
             dGridModulesList.AllowUserToAddRows = false;
             Controller.Load();
-            
-            UiController.ProgramUiElementListAdd(gBoxModule, 
-                gBoxCreateOrChangeTestProgram,btnUpModul,btnDownModul,btnAddModul,btnDelModul);
-            
+
+            UiController.ProgramUiElementListAdd(gBoxModule,
+                gBoxCreateOrChangeTestProgram, btnUpModul, btnDownModul, btnAddModul, btnDelModul);
+
             UiController.ProgramsListUiElementListAdd(gBoxTestProgramList);
-            
+
             UiController.ProgramOrProgramsListUiMode(ModeEdit.ProgramsList);
         }
-        
-        private void ProgramOnModulesListChanged(TestProgram testProgram)
+
+        /// <summary>
+        /// ивент додбавление модуля в список модулей
+        /// </summary>
+        /// <param name="testProgram">тестоовая программа</param>
+        private void OnModulesListChanged(TestProgram testProgram)
         {
             tBoxTestProgramName.Clear();
             tBoxTestProgramName.Text = testProgram.Name;
@@ -44,26 +48,35 @@ namespace NewUi.View
             foreach (var module in testProgram.ModulesList)
             {
                 var row = new DataGridViewRow();
-                row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.Name, Tag = module});
+                row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.Priority +" "+ module.Name});
+                row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.DescriptionModule()});
                 dGridModulesList.Rows.Add(row);
             }
         }
 
+        /// <summary>
+        /// ивент изменение имени программы
+        /// </summary>
+        /// <param name="testProgramName"></param>
+        /// <exception cref="NotImplementedException"></exception>
         private void ProgramOnNameChanged(string testProgramName)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// ивент добавлление программы в список программ
+        /// </summary>
+        /// <param name="testPrograms">тестовая программа</param>
         private void ControllerOnTestProgramsListChanged(List<TestProgram> testPrograms)
         {
             listBoxProgramsList.Items.Clear();
             foreach (var program in testPrograms)
             {
-                listBoxProgramsList.Items.Add(program.Name+" "+ program.Id);
+                listBoxProgramsList.Items.Add(program.Name + " " + program.Id);
             }
-            
         }
-        
+
         #region додбавление программы в список и работа с этим списком
 
         /// <summary>
@@ -73,9 +86,13 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnCreateTestProgram_Click(object sender, EventArgs e)
         {
-           UiController.ProgramOrProgramsListUiMode(ModeEdit.Program);
+            //откллюлчаем возмонжсть редактирования программы
+            Controller.ChangeTestProgram(false);
+            
+            UiController.ProgramOrProgramsListUiMode(ModeEdit.Program);
             //создаем заготовкуу программы
             Controller.CreateProgram();
+            dGridModulesList.Rows.Clear();
         }
 
         /// <summary>
@@ -86,6 +103,10 @@ namespace NewUi.View
         private void btnChangeTestProgram_Click(object sender, EventArgs e)
         {
             UiController.ProgramOrProgramsListUiMode(ModeEdit.Program);
+            var selectedIndexTestProgram = listBoxProgramsList.SelectedIndex;
+            
+            //подлючаем возмоносьт редактировать программу
+            Controller.ChangeTestProgram(true);
         }
 
         /// <summary>
@@ -95,6 +116,8 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnDelTestProgram_Click(object sender, EventArgs e)
         {
+            Controller.DeleteTestProgram(listBoxProgramsList.SelectedIndex);
+            dGridModulesList.Rows.Clear();
         }
 
 
@@ -138,8 +161,10 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnSaveTestProgram_Click(object sender, EventArgs e)
         {
+           
             UiController.ProgramOrProgramsListUiMode(ModeEdit.ProgramsList);
             Controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
+            Controller.ChangeTestProgram(false);
         }
 
         /// <summary>
@@ -190,6 +215,7 @@ namespace NewUi.View
             {
                 testModule = new ParamMeasurementTemperature() {Name = "Замер температуры"};
             }
+
             if (rBtnDelayBetwenMesaure.Checked)
             {
                 testModule = new DelayBetweenMeasurement()
@@ -199,6 +225,7 @@ namespace NewUi.View
                     Sec = numUpDelayBetwenMesaureSec.Value
                 };
             }
+
             if (rBtnCycle.Checked)
             {
                 testModule = new Cycle()
@@ -208,8 +235,10 @@ namespace NewUi.View
                     Min = numUpCycleMin.Value
                 };
             }
+
             Controller.AddingModuleToProgram(testModule);
         }
+
         /// <summary>
         /// удаление модуля из программы
         /// </summary>

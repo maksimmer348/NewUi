@@ -17,7 +17,7 @@ namespace NewUi
             //TODO где производить каст
          
         }
-        public override string DescriptionModule()
+        public override object DescriptionModule()
         {
             return $"{Min}мин. ;{Sec}сек.";
         }

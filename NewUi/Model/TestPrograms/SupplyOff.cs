@@ -6,7 +6,7 @@ namespace NewUi
     public class SupplyOff: TestModule
     {
         public int UnquieSupplyOn = 2;
-        public override string DescriptionModule()
+        public override object DescriptionModule()
         {
             return "-";
         }

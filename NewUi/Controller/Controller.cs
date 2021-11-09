@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace NewUi
 {
@@ -10,7 +9,9 @@ namespace NewUi
     {
         private readonly ApplicationContext db;
 
-        TestProgram Program = new TestProgram();
+        TestProgram program = new TestProgram();
+
+        private bool changeTestProgramEnable;
 
         //ивент изменения списка модулей
         public event Action<TestProgram> ModulesListChanged;
@@ -28,7 +29,8 @@ namespace NewUi
         //создаем новую программу
         public void CreateProgram()
         {
-            Program = new TestProgram();
+            program = new TestProgram();
+            InvokeModulesListChanged(program);
         }
 
         /// <summary>
@@ -38,12 +40,12 @@ namespace NewUi
         public void AddingModuleToProgram(TestModule testModule)
         {
             //добавляем в текущее свойство модуля текущую пролграмму в кторой он будет находитися
-            testModule.TestProgram = Program;
+            testModule.TestProgram = program;
             //добавляем в спикос модулей в программе текущщий модуль и заставлляем срабоать ивент
-            Program.AddModuleToList(testModule);
-            InvokeModulesListChanged(Program);
+            program.AddModuleToList(testModule);
+            InvokeModulesListChanged(program);
             //устанавливаем приоритет по умолчанию для модуля
-            testModule.Priority = Program.ModulesList.IndexOf(testModule);
+            testModule.Priority = program.ModulesList.IndexOf(testModule);
         }
 
         /// <summary>
@@ -52,54 +54,149 @@ namespace NewUi
         /// <param name="name">имя программы</param>
         public void AddingProgramAndModuleToDb(string name)
         {
-            Program.Name = name;
-            foreach (var testModule in Program.ModulesList)
+            program.Name = name;
+            foreach (var testModule in program.ModulesList)
             {
                 switch (testModule)
                 {
                     case ContactCheck contactCheck:
-                        db.ContactChecks.Add(contactCheck);
+                        if (!changeTestProgramEnable)
+                        {
+                            db.ContactChecks.Add(contactCheck);
+                        }
+
+                        if (changeTestProgramEnable)
+                        {
+                            db.ContactChecks.Update(contactCheck);
+                        }
+                        
                         break;
                     case Cycle cycle:
-                        db.Cycles.Add(cycle);
+                        if (!changeTestProgramEnable)
+                        {
+                            db.Cycles.Add(cycle);
+                        }
+
+                        if (changeTestProgramEnable)
+                        {
+                            db.Cycles.Update(cycle);
+                        }
+                        
                         break;
                     case DelayBetweenMeasurement delayBetweenMeasurement:
-                        db.DelayBetweenMeasurements.Add(delayBetweenMeasurement);
+                        if (!changeTestProgramEnable)
+                        {
+                            db.DelayBetweenMeasurements.Add(delayBetweenMeasurement);
+                        }
+
+                        if (changeTestProgramEnable)
+                        {
+                            db.DelayBetweenMeasurements.Update(delayBetweenMeasurement);
+                        }
+                        
                         break;
                     case OutputVoltageMeasure outputVoltageMeasure:
-                        db.OutputVoltageMeasures.Add(outputVoltageMeasure);
+                        if (!changeTestProgramEnable)
+                        {
+                            db.OutputVoltageMeasures.Add(outputVoltageMeasure);
+                        }
+
+                        if (changeTestProgramEnable)
+                        {
+                            db.OutputVoltageMeasures.Update(outputVoltageMeasure);
+                        }
+                        
                         break;
                     case ParamMeasurementTemperature paramMeasurementTemperature:
-                        db.ParamMeasurementTemperatures.Add(paramMeasurementTemperature);
+                        if (!changeTestProgramEnable)
+                        {
+                            db.ParamMeasurementTemperatures.Add(paramMeasurementTemperature);
+                        }
+
+                        if (changeTestProgramEnable)
+                        {
+                            db.ParamMeasurementTemperatures.Update(paramMeasurementTemperature);
+                        }
+                        
                         break;
                     case SetTemperature setTemperature:
-                        db.SetTemperatures.Add(setTemperature);
+                        if (!changeTestProgramEnable)
+                        {
+                            db.SetTemperatures.Add(setTemperature);
+                        }
+
+                        if (changeTestProgramEnable)
+                        {
+                            db.SetTemperatures.Update(setTemperature);
+                        }
+
                         break;
                     case SupplyOff supplyOff:
-                        db.SupplysOff.Add(supplyOff);
+                        if (!changeTestProgramEnable)
+                        {
+                            db.SupplysOff.Add(supplyOff);
+                        }
+
+                        if (changeTestProgramEnable)
+                        {
+                            db.SupplysOff.Update(supplyOff);
+                        }
+                        
                         break;
                     case SupplyOn supplyOn:
-                        db.SupplysOn.Add(supplyOn);
+                        if (!changeTestProgramEnable)
+                        {
+                            db.SupplysOn.Add(supplyOn);
+                        }
+
+                        if (changeTestProgramEnable)
+                        {
+                            db.SupplysOn.Update(supplyOn);
+                        }
+                        
                         break;
                 }
             }
 
-            db.Add(Program);
+            //если мы добавляем новую программу
+            if (!changeTestProgramEnable)
+            {
+                db.Add(program);
+                AddProgramToList(program);
+            }
+
+            //елси мы меняем программу
+            if (changeTestProgramEnable)
+            {
+                db.Update(program);
+                AddProgramToList(program, name);
+            }
+
             db.SaveChanges();
-            AddProgramToList(Program);
         }
 
         #endregion
-        
+
 
         #region работа со списком программ
 
         public List<TestProgram> TestProgramsList = new();
 
-        public void AddProgramToList(TestProgram TestProgram)
+        public void AddProgramToList(TestProgram testProgram, string newNameProgram = "")
         {
-            TestProgramsList.Add(TestProgram);
-            InvokeProgramsListChanged();
+            var tempTestProgram = TestProgramsList.FirstOrDefault(pr => pr.Id == testProgram.Id);
+
+            if (tempTestProgram == null)
+            {
+                TestProgramsList.Add(testProgram);
+                InvokeProgramsListChanged();
+            }
+
+            if (tempTestProgram != null)
+            {
+                tempTestProgram.Name = newNameProgram;
+                InvokeProgramsListChanged();
+            }
         }
 
         public void InvokeProgramsListChanged()
@@ -111,7 +208,7 @@ namespace NewUi
 
         #region предззагрузка из бд
 
-          public void LoadInDb()
+        public void LoadInDb()
         {
             //полулчаем список программ из базы данных
             var tempProgramList = db.TestPrograms.ToList();
@@ -168,11 +265,28 @@ namespace NewUi
         /// <param name="index">индекс выбора программы</param>
         public void SelectedTestProgram(int index)
         {
-            Program = TestProgramsList[index];
-            InvokeModulesListChanged(Program);
+            program = TestProgramsList[index];
+            InvokeModulesListChanged(program);
         }
 
         #endregion
-      
+
+        /// <summary>
+        /// переключаения возможности реадктироавния текущей программы
+        /// </summary>
+        /// <param name="changeProgram"></param>
+        public void ChangeTestProgram(bool changeProgram)
+        {
+            changeTestProgramEnable = changeProgram;
+        }
+
+        public void DeleteTestProgram(int indexTestProgram)
+        {
+            db.Remove(TestProgramsList[indexTestProgram]);
+            db.SaveChanges();
+            TestProgramsList.RemoveAt(indexTestProgram);
+            InvokeProgramsListChanged();
+           
+        }
     }
 }

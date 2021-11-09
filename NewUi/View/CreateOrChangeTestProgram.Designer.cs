@@ -55,6 +55,8 @@ namespace NewUi.View
             this.tBoxTestProgramName = new System.Windows.Forms.TextBox();
             this.gBoxModuleInProgram = new System.Windows.Forms.GroupBox();
             this.dGridModulesList = new System.Windows.Forms.DataGridView();
+            this.Modul = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ModulData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnUpModul = new System.Windows.Forms.Button();
             this.btnDownModul = new System.Windows.Forms.Button();
             this.btnDelModul = new System.Windows.Forms.Button();
@@ -67,8 +69,6 @@ namespace NewUi.View
             this.gBoxTestProgramList = new System.Windows.Forms.GroupBox();
             this.btnChangeTestProgram = new System.Windows.Forms.Button();
             this.btnCreateTestProgram = new System.Windows.Forms.Button();
-            this.Modul = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ModulData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gBoxModule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureMin)).BeginInit();
@@ -356,6 +356,20 @@ namespace NewUi.View
             this.dGridModulesList.Size = new System.Drawing.Size(233, 260);
             this.dGridModulesList.TabIndex = 29;
             // 
+            // Modul
+            // 
+            this.Modul.HeaderText = "Модуль";
+            this.Modul.Name = "Modul";
+            this.Modul.ReadOnly = true;
+            this.Modul.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ModulData
+            // 
+            this.ModulData.HeaderText = "Данные";
+            this.ModulData.Name = "ModulData";
+            this.ModulData.ReadOnly = true;
+            this.ModulData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // btnUpModul
             // 
             this.btnUpModul.Location = new System.Drawing.Point(245, 87);
@@ -478,20 +492,6 @@ namespace NewUi.View
             this.btnCreateTestProgram.Text = "Создать";
             this.btnCreateTestProgram.UseVisualStyleBackColor = true;
             this.btnCreateTestProgram.Click += new System.EventHandler(this.btnCreateTestProgram_Click);
-            // 
-            // Modul
-            // 
-            this.Modul.HeaderText = "Модуль";
-            this.Modul.Name = "Modul";
-            this.Modul.ReadOnly = true;
-            this.Modul.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ModulData
-            // 
-            this.ModulData.HeaderText = "Данные";
-            this.ModulData.Name = "ModulData";
-            this.ModulData.ReadOnly = true;
-            this.ModulData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // CreateOrChangeTestProgram
             // 

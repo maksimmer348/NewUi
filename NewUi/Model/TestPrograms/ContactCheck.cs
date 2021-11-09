@@ -18,9 +18,9 @@ namespace NewUi
         //не прошли испытания.
         public int ContactsCount { get; set; }
 
-        public override string DescriptionModule()
+        public override object DescriptionModule()
         {
-            return $"id - {Id}, См. в Изделии, Колво контактов - {ContactsCount}";
+            return $"См. в Изделии, Колво контактов - {ContactsCount}";
         }
     }
 }
