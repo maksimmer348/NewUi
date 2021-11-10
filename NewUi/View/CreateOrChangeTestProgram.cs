@@ -33,7 +33,9 @@ namespace NewUi.View
 
             UiController.ProgramsListUiElementListAdd(gBoxTestProgramList);
 
-            UiController.ProgramOrProgramsListUiMode(ModeEdit.ProgramsList);
+            UiController.NoneCycleUiElementListAdd(gBoxTestProgramList);
+            
+            UiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
         }
 
         /// <summary>
@@ -89,10 +91,11 @@ namespace NewUi.View
             //откллюлчаем возмонжсть редактирования программы
             Controller.ChangeTestProgram(false);
             
-            UiController.ProgramOrProgramsListUiMode(ModeEdit.Program);
+            UiController.UiModeEditProgramOrProgramList(ModeEdit.Program);
             //создаем заготовкуу программы
             Controller.CreateProgram();
-            dGridModulesList.Rows.Clear();
+            
+            //dGridModulesList.Rows.Clear();
         }
 
         /// <summary>
@@ -102,9 +105,7 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnChangeTestProgram_Click(object sender, EventArgs e)
         {
-            UiController.ProgramOrProgramsListUiMode(ModeEdit.Program);
-            var selectedIndexTestProgram = listBoxProgramsList.SelectedIndex;
-            
+            UiController.UiModeEditProgramOrProgramList(ModeEdit.Program);
             //подлючаем возмоносьт редактировать программу
             Controller.ChangeTestProgram(true);
         }
@@ -161,10 +162,19 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnSaveTestProgram_Click(object sender, EventArgs e)
         {
+            if (Controller.changeCycle)
+            {
+                UiController.UiModeEditProgramOrCycle(ModeEdit.Program);
+                
+                
+            }
+            else if (!Controller.changeCycle)
+            {
+                UiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
+                Controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
+                Controller.ChangeTestProgram(false);
+            }
            
-            UiController.ProgramOrProgramsListUiMode(ModeEdit.ProgramsList);
-            Controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
-            Controller.ChangeTestProgram(false);
         }
 
         /// <summary>
@@ -174,7 +184,20 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnCancelCreateTestProgram_Click(object sender, EventArgs e)
         {
-            UiController.ProgramOrProgramsListUiMode(ModeEdit.ProgramsList);
+            if (Controller.changeCycle)
+            {
+                UiController.UiModeEditProgramOrCycle(ModeEdit.Program);
+                
+                
+            }
+            else if (!Controller.changeCycle)
+            {
+                UiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
+                
+                
+            }
+           
+            
         }
 
         /// <summary>
@@ -234,6 +257,9 @@ namespace NewUi.View
                     Hour = numUpCycleHour.Value,
                     Min = numUpCycleMin.Value
                 };
+                
+                Controller.FunctionProgramOrCycle(ModeEdit.Cycle);
+                UiController.UiModeEditProgramOrCycle(ModeEdit.Cycle);
             }
 
             Controller.AddingModuleToProgram(testModule);
@@ -266,6 +292,9 @@ namespace NewUi.View
         {
         }
 
+
         #endregion
+
+       
     }
 }

@@ -69,6 +69,7 @@ namespace NewUi.View
             this.gBoxTestProgramList = new System.Windows.Forms.GroupBox();
             this.btnChangeTestProgram = new System.Windows.Forms.Button();
             this.btnCreateTestProgram = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.gBoxModule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureMin)).BeginInit();
@@ -79,6 +80,7 @@ namespace NewUi.View
             this.gBoxModuleInProgram.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dGridModulesList)).BeginInit();
             this.gBoxTestProgramList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // gBoxModule
@@ -101,6 +103,7 @@ namespace NewUi.View
             this.gBoxModule.Controls.Add(this.rBtnSetTemperature);
             this.gBoxModule.Controls.Add(this.rBtnSupplyOn);
             this.gBoxModule.Controls.Add(this.rBtnContactCheck);
+            this.gBoxModule.Controls.Add(this.pictureBox1);
             this.gBoxModule.Location = new System.Drawing.Point(546, 12);
             this.gBoxModule.Name = "gBoxModule";
             this.gBoxModule.Size = new System.Drawing.Size(404, 411);
@@ -133,6 +136,7 @@ namespace NewUi.View
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Yellow;
             this.label8.Location = new System.Drawing.Point(227, 376);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(32, 15);
@@ -142,6 +146,7 @@ namespace NewUi.View
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Yellow;
             this.label7.Location = new System.Drawing.Point(131, 376);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(27, 15);
@@ -198,13 +203,15 @@ namespace NewUi.View
             // rBtnCycle
             // 
             this.rBtnCycle.AutoSize = true;
+            this.rBtnCycle.BackColor = System.Drawing.Color.Yellow;
+            this.rBtnCycle.ForeColor = System.Drawing.SystemColors.ControlText;
             this.rBtnCycle.Location = new System.Drawing.Point(7, 372);
             this.rBtnCycle.Name = "rBtnCycle";
             this.rBtnCycle.Size = new System.Drawing.Size(54, 19);
             this.rBtnCycle.TabIndex = 17;
             this.rBtnCycle.TabStop = true;
             this.rBtnCycle.Text = "Цикл";
-            this.rBtnCycle.UseVisualStyleBackColor = true;
+            this.rBtnCycle.UseVisualStyleBackColor = false;
             // 
             // label4
             // 
@@ -493,6 +500,15 @@ namespace NewUi.View
             this.btnCreateTestProgram.UseVisualStyleBackColor = true;
             this.btnCreateTestProgram.Click += new System.EventHandler(this.btnCreateTestProgram_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Yellow;
+            this.pictureBox1.Location = new System.Drawing.Point(4, 363);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(266, 39);
+            this.pictureBox1.TabIndex = 30;
+            this.pictureBox1.TabStop = false;
+            // 
             // CreateOrChangeTestProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -522,6 +538,7 @@ namespace NewUi.View
             ((System.ComponentModel.ISupportInitialize)(this.dGridModulesList)).EndInit();
             this.gBoxTestProgramList.ResumeLayout(false);
             this.gBoxTestProgramList.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -567,5 +584,6 @@ namespace NewUi.View
         private System.Windows.Forms.Button btnCreateTestProgram;
         private System.Windows.Forms.DataGridViewTextBoxColumn Modul;
         private System.Windows.Forms.DataGridViewTextBoxColumn ModulData;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

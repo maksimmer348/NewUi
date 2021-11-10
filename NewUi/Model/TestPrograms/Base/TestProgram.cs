@@ -8,10 +8,11 @@ namespace NewUi
     public class TestProgram
     {
         public int Id { get; set; }
-        
+
         //меняем или изменяем имя вызывается ивент
         public event Action<string> NameChanged;
         private string _name;
+
         public string Name
         {
             get => _name;
@@ -24,25 +25,29 @@ namespace NewUi
                 }
             }
         }
-      
-        
-         public List<TestModule> ModulesList = new();
+
         /// <summary>
-        /// положвить один модуль в программу
+        /// список модулей
         /// </summary>
-        /// <param name="module">модуль</param>
+        public List<TestModule> ModulesList = new();
+
+      
+        /// <summary>
+        /// добаавить один модуль в программу
+        /// </summary>
+        /// <param name="module">добаавляемый модуль</param>
         public void AddModuleToList(TestModule module)
         {
-            if (module!= null)
+            if (module != null)
             {
                 ModulesList.Add(module);
             }
         }
-        
+
         /// <summary>
-        ///  положить списко модулей в програамму
+        ///  сортировка в списке модулей по приоритету
         /// </summary>
-        /// <param name="modulesLists">список модулей</param>
+        /// <param name="modulesLists">сортируемый список модулей</param>
         public void AddModulesToList(params IEnumerable<TestModule>[] modulesLists)
         {
             List<TestModule> tempList = new();
@@ -54,12 +59,10 @@ namespace NewUi
                     {
                         tempList.Add(module);
                     }
+
                     ModulesList = tempList.OrderBy(m => m.Priority).ToList();
-                    
                 }
             }
         }
     }
-
-
 }
