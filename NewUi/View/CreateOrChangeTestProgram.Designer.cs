@@ -48,6 +48,7 @@ namespace NewUi.View
             this.rBtnSetTemperature = new System.Windows.Forms.RadioButton();
             this.rBtnSupplyOn = new System.Windows.Forms.RadioButton();
             this.rBtnContactCheck = new System.Windows.Forms.RadioButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.gBoxCreateOrChangeTestProgram = new System.Windows.Forms.GroupBox();
             this.btnCancelCreateTestProgram = new System.Windows.Forms.Button();
             this.btnSaveTestProgram = new System.Windows.Forms.Button();
@@ -69,18 +70,17 @@ namespace NewUi.View
             this.gBoxTestProgramList = new System.Windows.Forms.GroupBox();
             this.btnChangeTestProgram = new System.Windows.Forms.Button();
             this.btnCreateTestProgram = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.gBoxModule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureSec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpSetTemperature)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.gBoxCreateOrChangeTestProgram.SuspendLayout();
             this.gBoxModuleInProgram.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dGridModulesList)).BeginInit();
             this.gBoxTestProgramList.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // gBoxModule
@@ -205,7 +205,7 @@ namespace NewUi.View
             this.rBtnCycle.AutoSize = true;
             this.rBtnCycle.BackColor = System.Drawing.Color.Yellow;
             this.rBtnCycle.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.rBtnCycle.Location = new System.Drawing.Point(7, 372);
+            this.rBtnCycle.Location = new System.Drawing.Point(7, 374);
             this.rBtnCycle.Name = "rBtnCycle";
             this.rBtnCycle.Size = new System.Drawing.Size(54, 19);
             this.rBtnCycle.TabIndex = 17;
@@ -285,8 +285,18 @@ namespace NewUi.View
             this.rBtnContactCheck.Text = "Проверка контактирования";
             this.rBtnContactCheck.UseVisualStyleBackColor = true;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Yellow;
+            this.pictureBox1.Location = new System.Drawing.Point(4, 363);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(266, 39);
+            this.pictureBox1.TabIndex = 30;
+            this.pictureBox1.TabStop = false;
+            // 
             // gBoxCreateOrChangeTestProgram
             // 
+            this.gBoxCreateOrChangeTestProgram.BackColor = System.Drawing.SystemColors.Control;
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.btnCancelCreateTestProgram);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.btnSaveTestProgram);
             this.gBoxCreateOrChangeTestProgram.Controls.Add(this.label3);
@@ -500,15 +510,6 @@ namespace NewUi.View
             this.btnCreateTestProgram.UseVisualStyleBackColor = true;
             this.btnCreateTestProgram.Click += new System.EventHandler(this.btnCreateTestProgram_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Yellow;
-            this.pictureBox1.Location = new System.Drawing.Point(4, 363);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(266, 39);
-            this.pictureBox1.TabIndex = 30;
-            this.pictureBox1.TabStop = false;
-            // 
             // CreateOrChangeTestProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -532,13 +533,13 @@ namespace NewUi.View
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleHour)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureSec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpSetTemperature)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.gBoxCreateOrChangeTestProgram.ResumeLayout(false);
             this.gBoxCreateOrChangeTestProgram.PerformLayout();
             this.gBoxModuleInProgram.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dGridModulesList)).EndInit();
             this.gBoxTestProgramList.ResumeLayout(false);
             this.gBoxTestProgramList.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

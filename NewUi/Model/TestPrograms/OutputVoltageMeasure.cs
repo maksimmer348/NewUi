@@ -11,8 +11,7 @@ namespace NewUi
         //если прошол исптынаия не меняем цвет шарика и статус прибора
         //еслли НЕТ то тот источто мы меняем цвет шариков, и иключаем прибор из дальнейших испытаний
         
-        public int CycleId { get; set; }
-        public Cycle Cycle { get; set; }
+       
         
         public override object DescriptionModule()
         {

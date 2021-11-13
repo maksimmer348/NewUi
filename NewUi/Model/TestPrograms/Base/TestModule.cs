@@ -9,8 +9,12 @@ namespace NewUi
 
         public int Priority { get; set; }
         
-        public int TestProgramId { get; set; }
+        public int? TestProgramId { get; set; }
         public TestProgram TestProgram { get; set; }
+        
+        public int? CycleId { get; set; }
+        public Cycle Cycle { get; set; }
+        
         public virtual object DescriptionModule()
         {
             return " ";

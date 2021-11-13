@@ -23,7 +23,7 @@ namespace NewUi
         /// <summary>
         /// список модулей в цикле
         /// </summary>
-        private List<TestModule> ModulesInCycleList = new List<TestModule>();
+        public List<TestModule> ModulesList = new List<TestModule>();
         
         /// <summary>
         /// добаавить один модуль в "цикл"
@@ -33,10 +33,10 @@ namespace NewUi
         {
             if (module != null)
             {
-                ModulesInCycleList.Add(module);
+                ModulesList.Add(module);
             }
         }
-
+      
         /// <summary>
         ///  сортировка в списке модулей по приоритету
         /// </summary>
@@ -53,7 +53,7 @@ namespace NewUi
                         tempList.Add(module);
                     }
                     //выстраиваем модули в списке по приоритеиту
-                    ModulesInCycleList = tempList.OrderBy(m => m.Priority).ToList();
+                    ModulesList = tempList.OrderBy(m => m.Priority).ToList();
                 }
             }
         }

@@ -23,7 +23,7 @@ namespace NewUi.View
             Controller.TestProgramsListChanged += ControllerOnTestProgramsListChanged;
 
             //Controller.Program.NameChanged += ProgramOnNameChanged;
-            Controller.ModulesListChanged += OnModulesListChanged;
+            Controller.ModulesListChangedOnProgram += OnModulesListChanged;
 
             dGridModulesList.AllowUserToAddRows = false;
             Controller.Load();
@@ -34,7 +34,7 @@ namespace NewUi.View
             UiController.ProgramsListUiElementListAdd(gBoxTestProgramList);
 
             UiController.NoneCycleUiElementListAdd(gBoxTestProgramList);
-            
+
             UiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
         }
 
@@ -50,7 +50,7 @@ namespace NewUi.View
             foreach (var module in testProgram.ModulesList)
             {
                 var row = new DataGridViewRow();
-                row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.Priority +" "+ module.Name});
+                row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.Priority + " " + module.Name});
                 row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.DescriptionModule()});
                 dGridModulesList.Rows.Add(row);
             }
@@ -90,11 +90,11 @@ namespace NewUi.View
         {
             //откллюлчаем возмонжсть редактирования программы
             Controller.ChangeTestProgram(false);
-            
+
             UiController.UiModeEditProgramOrProgramList(ModeEdit.Program);
             //создаем заготовкуу программы
             Controller.CreateProgram();
-            
+
             //dGridModulesList.Rows.Clear();
         }
 
@@ -156,48 +156,42 @@ namespace NewUi.View
         #region создание программы и работа с модулями
 
         /// <summary>
-        /// сохранить программу в список программ
+        /// сохранить программу/цикл в список программ/в программу
         /// </summary>
         /// <param name="sender">сохранить</param>
         /// <param name="e"></param>
         private void btnSaveTestProgram_Click(object sender, EventArgs e)
         {
-            if (Controller.changeCycle)
+            if (Controller.EnableCycle)
             {
-                UiController.UiModeEditProgramOrCycle(ModeEdit.Program);
-                
-                
+                //UiController.UiModeEditProgramOrCycle(ModeEdit.Program);
+                Controller.AddingCucleAndModuleToDb();
+                //Controller.ChangeTestProgram(false);
+                Controller.ModeProgramOrCycle(ModeEdit.Program);
             }
-            else if (!Controller.changeCycle)
+            else if (!Controller.EnableCycle)
             {
                 UiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
                 Controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
                 Controller.ChangeTestProgram(false);
             }
-           
         }
 
         /// <summary>
-        /// отменить изменение или создание программы
+        /// отменить изменение или создание программы/цикла
         /// </summary>
         /// <param name="sender">отменить</param>
         /// <param name="e"></param>
         private void btnCancelCreateTestProgram_Click(object sender, EventArgs e)
         {
-            if (Controller.changeCycle)
+            if (Controller.EnableCycle)
             {
                 UiController.UiModeEditProgramOrCycle(ModeEdit.Program);
-                
-                
             }
-            else if (!Controller.changeCycle)
+            else if (!Controller.EnableCycle)
             {
                 UiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
-                
-                
             }
-           
-            
         }
 
         /// <summary>
@@ -249,6 +243,7 @@ namespace NewUi.View
                 };
             }
 
+            //работа с циклом
             if (rBtnCycle.Checked)
             {
                 testModule = new Cycle()
@@ -257,12 +252,32 @@ namespace NewUi.View
                     Hour = numUpCycleHour.Value,
                     Min = numUpCycleMin.Value
                 };
-                
-                Controller.FunctionProgramOrCycle(ModeEdit.Cycle);
-                UiController.UiModeEditProgramOrCycle(ModeEdit.Cycle);
+
+                Controller.ModeProgramOrCycle(ModeEdit.Cycle);
+                //UiController.UiModeEditProgramOrCycle(ModeEdit.Cycle);
             }
 
-            Controller.AddingModuleToProgram(testModule);
+            //если флаг цикла
+            if (Controller.EnableCycle)
+            {
+                //есил модуль явлляется циклом 
+                if (testModule is Cycle)
+                {
+                    //добавить его в програамму
+                    Controller.AddModuleToProgram(testModule);
+                }
+                //если флаг циклла добавллляем моудль в текущий циклл
+                else
+                {
+                    Controller.AddModuleToCycle(testModule);
+                }
+            }
+            //если флага цикла нет добавляем модуль в тестовцую программу
+            else
+            {
+                Controller.AddModuleToProgram(testModule);
+            }
+           
         }
 
         /// <summary>
@@ -292,9 +307,6 @@ namespace NewUi.View
         {
         }
 
-
         #endregion
-
-       
     }
 }
