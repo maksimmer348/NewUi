@@ -1,41 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace NewUi.View
 {
     public partial class CreateOrChangeTestProgram : Form
     {
-        Controller Controller = new();
-        UiController UiController = new();
-
+        Controller controller = new();
+        UiController uiController = new();
+        DataTable dt = new ();
         public CreateOrChangeTestProgram()
         {
             InitializeComponent();
-            Controller.TestProgramsListChanged += ControllerOnTestProgramsListChanged;
-
-            //Controller.Program.NameChanged += ProgramOnNameChanged;
-            Controller.ModulesListChangedOnProgram += OnModulesListChanged;
-
+            
+            dt.Columns.Add("Module", typeof(string));
+            dt.Columns.Add("Descriprion", typeof(string));
+            
+            //при изменении списка программ
+            controller.TestProgramsListChanged += ControllerOnTestProgramsListChanged;
+            //при имзенениии модуля в программе
+            controller.ModulesListChangedOnProgram += OnModulesListChanged;
+            //при изменении модуля в цикле
+            controller.ModulesListChangedOnCycle += ControllerOnModulesListChangedOnCycle;
+            //удаляет лишние записи в гридвью
             dGridModulesList.AllowUserToAddRows = false;
-            Controller.Load();
 
-            UiController.ProgramUiElementListAdd(gBoxModule,
-                gBoxCreateOrChangeTestProgram, btnUpModul, btnDownModul, btnAddModul, btnDelModul);
+            //подгружаем данные из базы данных, создаем если нет первую програамму по умолчанию
+            controller.Load();
 
-            UiController.ProgramsListUiElementListAdd(gBoxTestProgramList);
+            //подгружаем в контроллер интерфейса связанные с тестовой программой ui элменты
+            uiController.ProgramUiElementListAdd(gBoxModule, gBoxCreateOrChangeTestProgramOrCycle,
+                btnUpModule, btnDownModule, btnAddModule, btnDelModule);
+            //подгружаем в контроллер интерфейса связанные с списсокм тестовых программ ui элменты
+            uiController.ProgramsListUiElementListAdd(gBoxTestProgramList);
+            //подгружаем в контроллер интерфейса связанные с циклом ui элменты
+            uiController.NoneCycleUiElementListAdd(gBoxTestProgramList);
+            //подгружаем в контроллер интерфейса ui элменты кторые будут менять цвет при изменении цикла 
+            uiController.CycleUiElementChangeColorListAdd(rBtnCycle, pBoxCycle, labelCycleHour,
+                labelCycleMin,
+                pBoxCreateOrChangeTestProgramOrCycle, rBtnParamMeasureVoltage, rBtnParamMeasureTemperature,
+                pBoxModuleInProgramOrCycle, rBtnDelayBetwenMesaure, labelDelayBetwenMesaureMin,
+                labelDelayBetwenMesaureSec);
 
-            UiController.NoneCycleUiElementListAdd(gBoxTestProgramList);
+            // uiController.ChangeColor(CycleColor.Green);
+            //при запуске программы запускается отображение связанных с списокм тестовых программ ui элменты
+            uiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
+            
+           
+        }
 
-            UiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
+        /// <summary>
+        /// ивент добавления модуля в цикл
+        /// </summary>
+        /// <param name="cycle">цикл</param>
+        private void ControllerOnModulesListChangedOnCycle(Cycle cycle)
+        {
+
+            foreach (var module in cycle.ModulesList)
+            {
+                dt.Rows.Add(module.Name, module.DescriptionModule());
+            }
+            //
+            // var row = new DataGridViewRow();
+            //     row.DefaultCellStyle.BackColor = Color.Red;
+            //     row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.Priority + " " + module.Name});
+            //     row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.DescriptionModule()});
+            //     dGridModulesList.Rows.Add(row);
+            // }
+            dGridModulesList.DataSource = dt;
         }
 
         /// <summary>
@@ -44,16 +81,24 @@ namespace NewUi.View
         /// <param name="testProgram">тестоовая программа</param>
         private void OnModulesListChanged(TestProgram testProgram)
         {
+            
             tBoxTestProgramName.Clear();
             tBoxTestProgramName.Text = testProgram.Name;
-            dGridModulesList.Rows.Clear();
-            foreach (var module in testProgram.ModulesList)
+            for (int i = 0; i < testProgram.ModulesList.Count; i++)
             {
-                var row = new DataGridViewRow();
-                row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.Priority + " " + module.Name});
-                row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.DescriptionModule()});
-                dGridModulesList.Rows.Add(row);
+                dt.Rows.Add(testProgram.ModulesList[i].Name, testProgram.ModulesList[i].DescriptionModule());
             }
+            
+            dGridModulesList.DataSource = dt;
+            
+            // foreach (var module in testProgram.ModulesList)
+            // {
+            //     
+            //     // var row = new DataGridViewRow();
+            //     // row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.Priority + " " + module.Name});
+            //     // row.Cells.Add(new DataGridViewTextBoxCell() {Value = module.DescriptionModule()});
+            //     // dGridModulesList.Rows.Add(row);
+            // }
         }
 
         /// <summary>
@@ -89,11 +134,11 @@ namespace NewUi.View
         private void btnCreateTestProgram_Click(object sender, EventArgs e)
         {
             //откллюлчаем возмонжсть редактирования программы
-            Controller.ChangeTestProgram(false);
+            controller.ChangeTestProgram(false);
 
-            UiController.UiModeEditProgramOrProgramList(ModeEdit.Program);
-            //создаем заготовкуу программы
-            Controller.CreateProgram();
+            uiController.UiModeEditProgramOrProgramList(ModeEdit.Program);
+            //создаем заготовку программы
+            controller.CreateProgram();
 
             //dGridModulesList.Rows.Clear();
         }
@@ -105,9 +150,9 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnChangeTestProgram_Click(object sender, EventArgs e)
         {
-            UiController.UiModeEditProgramOrProgramList(ModeEdit.Program);
+            uiController.UiModeEditProgramOrProgramList(ModeEdit.Program);
             //подлючаем возмоносьт редактировать программу
-            Controller.ChangeTestProgram(true);
+            controller.ChangeTestProgram(true);
         }
 
         /// <summary>
@@ -117,20 +162,19 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnDelTestProgram_Click(object sender, EventArgs e)
         {
-            Controller.DeleteTestProgram(listBoxProgramsList.SelectedIndex);
+            controller.DeleteTestProgram(listBoxProgramsList.SelectedIndex);
             dGridModulesList.Rows.Clear();
         }
-
 
         /// <summary>
         /// выбрать программу из списка для изменения, удаления илли применения
         /// </summary>
         /// <param name="sender">listBoxProgramList</param>
         /// <param name="e"></param>
-        private void listBoxProgramsList_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void listBoxProgramsList_SelectedIndexChanged(object sender, EventArgs e)
         {
             var index = listBoxProgramsList.SelectedIndex;
-            Controller.SelectedTestProgram(index);
+            controller.SelectedTestProgram(index);
         }
 
         /// <summary>
@@ -162,18 +206,16 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnSaveTestProgram_Click(object sender, EventArgs e)
         {
-            if (Controller.EnableCycle)
+            if (controller.EnableCycle)
             {
-                //UiController.UiModeEditProgramOrCycle(ModeEdit.Program);
-                Controller.AddingCucleAndModuleToDb();
-                //Controller.ChangeTestProgram(false);
-                Controller.ModeProgramOrCycle(ModeEdit.Program);
+                controller.AddingModuleCycleToDb();
+                controller.ModeProgramOrCycle(ModeEdit.Program);
             }
-            else if (!Controller.EnableCycle)
+            else if (!controller.EnableCycle)
             {
-                UiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
-                Controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
-                Controller.ChangeTestProgram(false);
+                uiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
+                controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
+                controller.ChangeTestProgram(false);
             }
         }
 
@@ -184,13 +226,13 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnCancelCreateTestProgram_Click(object sender, EventArgs e)
         {
-            if (Controller.EnableCycle)
+            if (controller.EnableCycle)
             {
-                UiController.UiModeEditProgramOrCycle(ModeEdit.Program);
+                uiController.UiModeEditProgramOrCycle(ModeEdit.Program);
             }
-            else if (!Controller.EnableCycle)
+            else if (!controller.EnableCycle)
             {
-                UiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
+                uiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
             }
         }
 
@@ -199,12 +241,16 @@ namespace NewUi.View
         /// </summary>
         /// <param name="sender">добавить</param>
         /// <param name="e"></param>
-        private void btnAddModul_Click(object sender, EventArgs e)
+        private void btnAddModule_Click(object sender, EventArgs e)
         {
             TestModule testModule = null;
             if (rBtnContactCheck.Checked)
             {
-                testModule = new ContactCheck() {Name = "Проверка контактирования", ContactsCount = 1};
+                testModule = new ContactCheck()
+                {
+                    Name = "Проверка контактирования",
+                    ContactsCount = 1
+                };
             }
 
             if (rBtnSupplyOn.Checked)
@@ -219,13 +265,16 @@ namespace NewUi.View
 
             if (rBtnParamMeasureVoltage.Checked)
             {
-                testModule = new SupplyOff() {Name = "Замер выходного напряжения"};
+                testModule = new OutputVoltageMeasure() {Name = "Замер выходного напряжения"};
             }
 
             if (rBtnSetTemperature.Checked)
             {
                 testModule = new SetTemperature()
-                    {Name = "Установка температуры", Temperature = numUpSetTemperature.Value};
+                {
+                    Name = "Установка температуры",
+                    Temperature = numUpSetTemperature.Value
+                };
             }
 
             if (rBtnParamMeasureTemperature.Checked)
@@ -253,31 +302,30 @@ namespace NewUi.View
                     Min = numUpCycleMin.Value
                 };
 
-                Controller.ModeProgramOrCycle(ModeEdit.Cycle);
+                controller.ModeProgramOrCycle(ModeEdit.Cycle);
                 //UiController.UiModeEditProgramOrCycle(ModeEdit.Cycle);
             }
 
             //если флаг цикла
-            if (Controller.EnableCycle)
+            if (controller.EnableCycle)
             {
-                //есил модуль явлляется циклом 
+                //если модуль является циклом 
                 if (testModule is Cycle)
                 {
-                    //добавить его в програамму
-                    Controller.AddModuleToProgram(testModule);
+                    //добавить его в программу
+                    controller.AddModuleToProgram(testModule);
                 }
-                //если флаг циклла добавллляем моудль в текущий циклл
+                //если модуль не цикл и при этом флаг цикла, добавляем модуль в текущий цикл
                 else
                 {
-                    Controller.AddModuleToCycle(testModule);
+                    controller.AddModuleToCycle(testModule);
                 }
             }
-            //если флага цикла нет добавляем модуль в тестовцую программу
+            //если флага цикла нет добавляем модуль в тестовую программу
             else
             {
-                Controller.AddModuleToProgram(testModule);
+                controller.AddModuleToProgram(testModule);
             }
-           
         }
 
         /// <summary>
@@ -285,7 +333,7 @@ namespace NewUi.View
         /// </summary>
         /// <param name="sender">удалить</param>
         /// <param name="e"></param>
-        private void btnDelModul_Click(object sender, EventArgs e)
+        private void btnDelModule_Click(object sender, EventArgs e)
         {
         }
 
@@ -294,17 +342,59 @@ namespace NewUi.View
         /// </summary>
         /// <param name="sender">↑</param>
         /// <param name="e"></param>
-        private void btnUpModul_Click(object sender, EventArgs e)
+        private void btnUpModule_Click(object sender, EventArgs e)
         {
+            count -= 1;
+
+            changeColor();
         }
+
+        int count = 0;
 
         /// <summary>
         ///  подвинуть модуль в проргамме на одно позицию вниз
         /// </summary>
         /// <param name="sender">↓</param>
         /// <param name="e"></param>
-        private void btnDownModul_Click(object sender, EventArgs e)
+        private void btnDownModule_Click(object sender, EventArgs e)
         {
+            count += 1;
+            changeColor();
+        }
+
+        void changeColor()
+        {
+            if (count < 1)
+            {
+                count = 6;
+            }
+
+            if (count > 6)
+            {
+                count = 1;
+            }
+
+            switch (count)
+            {
+                case 1:
+                    uiController.ChangeColorCycle(CycleColor.Blue);
+                    break;
+                case 2:
+                    uiController.ChangeColorCycle(CycleColor.Green);
+                    break;
+                case 3:
+                    uiController.ChangeColorCycle(CycleColor.Olive);
+                    break;
+                case 4:
+                    uiController.ChangeColorCycle(CycleColor.Purpule);
+                    break;
+                case 5:
+                    uiController.ChangeColorCycle(CycleColor.Red);
+                    break;
+                case 6:
+                    uiController.ChangeColorCycle(CycleColor.Yellow);
+                    break;
+            }
         }
 
         #endregion

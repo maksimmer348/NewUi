@@ -32,10 +32,10 @@ namespace NewUi.View
             this.gBoxModule = new System.Windows.Forms.GroupBox();
             this.rBtnParamMeasureTemperature = new System.Windows.Forms.RadioButton();
             this.rBtnSupplyOff = new System.Windows.Forms.RadioButton();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.labelCycleMin = new System.Windows.Forms.Label();
+            this.labelCycleHour = new System.Windows.Forms.Label();
+            this.labelDelayBetwenMesaureSec = new System.Windows.Forms.Label();
+            this.labelDelayBetwenMesaureMin = new System.Windows.Forms.Label();
             this.numUpCycleMin = new System.Windows.Forms.NumericUpDown();
             this.numUpDelayBetwenMesaureMin = new System.Windows.Forms.NumericUpDown();
             this.numUpCycleHour = new System.Windows.Forms.NumericUpDown();
@@ -48,26 +48,26 @@ namespace NewUi.View
             this.rBtnSetTemperature = new System.Windows.Forms.RadioButton();
             this.rBtnSupplyOn = new System.Windows.Forms.RadioButton();
             this.rBtnContactCheck = new System.Windows.Forms.RadioButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.gBoxCreateOrChangeTestProgram = new System.Windows.Forms.GroupBox();
+            this.pBoxCycle = new System.Windows.Forms.PictureBox();
+            this.gBoxCreateOrChangeTestProgramOrCycle = new System.Windows.Forms.GroupBox();
             this.btnCancelCreateTestProgram = new System.Windows.Forms.Button();
             this.btnSaveTestProgram = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.tBoxTestProgramName = new System.Windows.Forms.TextBox();
-            this.gBoxModuleInProgram = new System.Windows.Forms.GroupBox();
+            this.pBoxCreateOrChangeTestProgramOrCycle = new System.Windows.Forms.PictureBox();
+            this.gBoxModuleInProgramOrCycle = new System.Windows.Forms.GroupBox();
             this.dGridModulesList = new System.Windows.Forms.DataGridView();
-            this.Modul = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ModulData = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnUpModul = new System.Windows.Forms.Button();
-            this.btnDownModul = new System.Windows.Forms.Button();
-            this.btnDelModul = new System.Windows.Forms.Button();
-            this.btnAddModul = new System.Windows.Forms.Button();
+            this.btnUpModule = new System.Windows.Forms.Button();
+            this.btnDownModule = new System.Windows.Forms.Button();
+            this.btnDelModule = new System.Windows.Forms.Button();
+            this.btnAddModule = new System.Windows.Forms.Button();
+            this.pBoxModuleInProgramOrCycle = new System.Windows.Forms.PictureBox();
             this.btnSelectTestProgram = new System.Windows.Forms.Button();
-            this.listBoxProgramsList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnDelTestProgram = new System.Windows.Forms.Button();
             this.btnCancelTestProgram = new System.Windows.Forms.Button();
             this.gBoxTestProgramList = new System.Windows.Forms.GroupBox();
+            this.listBoxProgramsList = new System.Windows.Forms.ListBox();
             this.btnChangeTestProgram = new System.Windows.Forms.Button();
             this.btnCreateTestProgram = new System.Windows.Forms.Button();
             this.gBoxModule.SuspendLayout();
@@ -76,10 +76,12 @@ namespace NewUi.View
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureSec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpSetTemperature)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.gBoxCreateOrChangeTestProgram.SuspendLayout();
-            this.gBoxModuleInProgram.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pBoxCycle)).BeginInit();
+            this.gBoxCreateOrChangeTestProgramOrCycle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pBoxCreateOrChangeTestProgramOrCycle)).BeginInit();
+            this.gBoxModuleInProgramOrCycle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dGridModulesList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pBoxModuleInProgramOrCycle)).BeginInit();
             this.gBoxTestProgramList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,10 +89,10 @@ namespace NewUi.View
             // 
             this.gBoxModule.Controls.Add(this.rBtnParamMeasureTemperature);
             this.gBoxModule.Controls.Add(this.rBtnSupplyOff);
-            this.gBoxModule.Controls.Add(this.label8);
-            this.gBoxModule.Controls.Add(this.label7);
-            this.gBoxModule.Controls.Add(this.label6);
-            this.gBoxModule.Controls.Add(this.label5);
+            this.gBoxModule.Controls.Add(this.labelCycleMin);
+            this.gBoxModule.Controls.Add(this.labelCycleHour);
+            this.gBoxModule.Controls.Add(this.labelDelayBetwenMesaureSec);
+            this.gBoxModule.Controls.Add(this.labelDelayBetwenMesaureMin);
             this.gBoxModule.Controls.Add(this.numUpCycleMin);
             this.gBoxModule.Controls.Add(this.numUpDelayBetwenMesaureMin);
             this.gBoxModule.Controls.Add(this.numUpCycleHour);
@@ -103,7 +105,7 @@ namespace NewUi.View
             this.gBoxModule.Controls.Add(this.rBtnSetTemperature);
             this.gBoxModule.Controls.Add(this.rBtnSupplyOn);
             this.gBoxModule.Controls.Add(this.rBtnContactCheck);
-            this.gBoxModule.Controls.Add(this.pictureBox1);
+            this.gBoxModule.Controls.Add(this.pBoxCycle);
             this.gBoxModule.Location = new System.Drawing.Point(546, 12);
             this.gBoxModule.Name = "gBoxModule";
             this.gBoxModule.Size = new System.Drawing.Size(404, 411);
@@ -114,7 +116,7 @@ namespace NewUi.View
             // rBtnParamMeasureTemperature
             // 
             this.rBtnParamMeasureTemperature.AutoSize = true;
-            this.rBtnParamMeasureTemperature.Location = new System.Drawing.Point(6, 272);
+            this.rBtnParamMeasureTemperature.Location = new System.Drawing.Point(6, 222);
             this.rBtnParamMeasureTemperature.Name = "rBtnParamMeasureTemperature";
             this.rBtnParamMeasureTemperature.Size = new System.Drawing.Size(136, 19);
             this.rBtnParamMeasureTemperature.TabIndex = 28;
@@ -133,44 +135,44 @@ namespace NewUi.View
             this.rBtnSupplyOff.Text = "Выключение источника";
             this.rBtnSupplyOff.UseVisualStyleBackColor = true;
             // 
-            // label8
+            // labelCycleMin
             // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Yellow;
-            this.label8.Location = new System.Drawing.Point(227, 376);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(32, 15);
-            this.label8.TabIndex = 26;
-            this.label8.Text = "Мин";
+            this.labelCycleMin.AutoSize = true;
+            this.labelCycleMin.BackColor = System.Drawing.SystemColors.Control;
+            this.labelCycleMin.Location = new System.Drawing.Point(227, 376);
+            this.labelCycleMin.Name = "labelCycleMin";
+            this.labelCycleMin.Size = new System.Drawing.Size(32, 15);
+            this.labelCycleMin.TabIndex = 26;
+            this.labelCycleMin.Text = "Мин";
             // 
-            // label7
+            // labelCycleHour
             // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Yellow;
-            this.label7.Location = new System.Drawing.Point(131, 376);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(27, 15);
-            this.label7.TabIndex = 25;
-            this.label7.Text = "Час";
+            this.labelCycleHour.AutoSize = true;
+            this.labelCycleHour.BackColor = System.Drawing.SystemColors.Control;
+            this.labelCycleHour.Location = new System.Drawing.Point(131, 376);
+            this.labelCycleHour.Name = "labelCycleHour";
+            this.labelCycleHour.Size = new System.Drawing.Size(27, 15);
+            this.labelCycleHour.TabIndex = 25;
+            this.labelCycleHour.Text = "Час";
             // 
-            // label6
+            // labelDelayBetwenMesaureSec
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(369, 326);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(27, 15);
-            this.label6.TabIndex = 24;
-            this.label6.Text = "Сек";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.labelDelayBetwenMesaureSec.AutoSize = true;
+            this.labelDelayBetwenMesaureSec.Location = new System.Drawing.Point(369, 326);
+            this.labelDelayBetwenMesaureSec.Name = "labelDelayBetwenMesaureSec";
+            this.labelDelayBetwenMesaureSec.Size = new System.Drawing.Size(27, 15);
+            this.labelDelayBetwenMesaureSec.TabIndex = 24;
+            this.labelDelayBetwenMesaureSec.Text = "Сек";
+            this.labelDelayBetwenMesaureSec.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // label5
+            // labelDelayBetwenMesaureMin
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(270, 326);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 15);
-            this.label5.TabIndex = 23;
-            this.label5.Text = "Мин";
+            this.labelDelayBetwenMesaureMin.AutoSize = true;
+            this.labelDelayBetwenMesaureMin.Location = new System.Drawing.Point(270, 326);
+            this.labelDelayBetwenMesaureMin.Name = "labelDelayBetwenMesaureMin";
+            this.labelDelayBetwenMesaureMin.Size = new System.Drawing.Size(32, 15);
+            this.labelDelayBetwenMesaureMin.TabIndex = 23;
+            this.labelDelayBetwenMesaureMin.Text = "Мин";
             // 
             // numUpCycleMin
             // 
@@ -203,7 +205,7 @@ namespace NewUi.View
             // rBtnCycle
             // 
             this.rBtnCycle.AutoSize = true;
-            this.rBtnCycle.BackColor = System.Drawing.Color.Yellow;
+            this.rBtnCycle.BackColor = System.Drawing.SystemColors.Control;
             this.rBtnCycle.ForeColor = System.Drawing.SystemColors.ControlText;
             this.rBtnCycle.Location = new System.Drawing.Point(7, 374);
             this.rBtnCycle.Name = "rBtnCycle";
@@ -216,7 +218,7 @@ namespace NewUi.View
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(227, 226);
+            this.label4.Location = new System.Drawing.Point(227, 176);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 15);
             this.label4.TabIndex = 16;
@@ -224,7 +226,7 @@ namespace NewUi.View
             // 
             // numUpSetTemperature
             // 
-            this.numUpSetTemperature.Location = new System.Drawing.Point(166, 222);
+            this.numUpSetTemperature.Location = new System.Drawing.Point(166, 172);
             this.numUpSetTemperature.Name = "numUpSetTemperature";
             this.numUpSetTemperature.Size = new System.Drawing.Size(55, 23);
             this.numUpSetTemperature.TabIndex = 15;
@@ -244,7 +246,7 @@ namespace NewUi.View
             // rBtnParamMeasureVoltage
             // 
             this.rBtnParamMeasureVoltage.AutoSize = true;
-            this.rBtnParamMeasureVoltage.Location = new System.Drawing.Point(6, 172);
+            this.rBtnParamMeasureVoltage.Location = new System.Drawing.Point(6, 272);
             this.rBtnParamMeasureVoltage.Name = "rBtnParamMeasureVoltage";
             this.rBtnParamMeasureVoltage.Size = new System.Drawing.Size(200, 19);
             this.rBtnParamMeasureVoltage.TabIndex = 13;
@@ -255,7 +257,7 @@ namespace NewUi.View
             // rBtnSetTemperature
             // 
             this.rBtnSetTemperature.AutoSize = true;
-            this.rBtnSetTemperature.Location = new System.Drawing.Point(6, 222);
+            this.rBtnSetTemperature.Location = new System.Drawing.Point(6, 172);
             this.rBtnSetTemperature.Name = "rBtnSetTemperature";
             this.rBtnSetTemperature.Size = new System.Drawing.Size(157, 19);
             this.rBtnSetTemperature.TabIndex = 12;
@@ -285,28 +287,29 @@ namespace NewUi.View
             this.rBtnContactCheck.Text = "Проверка контактирования";
             this.rBtnContactCheck.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // pBoxCycle
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Yellow;
-            this.pictureBox1.Location = new System.Drawing.Point(4, 363);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(266, 39);
-            this.pictureBox1.TabIndex = 30;
-            this.pictureBox1.TabStop = false;
+            this.pBoxCycle.BackColor = System.Drawing.SystemColors.Control;
+            this.pBoxCycle.Location = new System.Drawing.Point(0, 210);
+            this.pBoxCycle.Name = "pBoxCycle";
+            this.pBoxCycle.Size = new System.Drawing.Size(405, 201);
+            this.pBoxCycle.TabIndex = 30;
+            this.pBoxCycle.TabStop = false;
             // 
-            // gBoxCreateOrChangeTestProgram
+            // gBoxCreateOrChangeTestProgramOrCycle
             // 
-            this.gBoxCreateOrChangeTestProgram.BackColor = System.Drawing.SystemColors.Control;
-            this.gBoxCreateOrChangeTestProgram.Controls.Add(this.btnCancelCreateTestProgram);
-            this.gBoxCreateOrChangeTestProgram.Controls.Add(this.btnSaveTestProgram);
-            this.gBoxCreateOrChangeTestProgram.Controls.Add(this.label3);
-            this.gBoxCreateOrChangeTestProgram.Controls.Add(this.tBoxTestProgramName);
-            this.gBoxCreateOrChangeTestProgram.Location = new System.Drawing.Point(265, 12);
-            this.gBoxCreateOrChangeTestProgram.Name = "gBoxCreateOrChangeTestProgram";
-            this.gBoxCreateOrChangeTestProgram.Size = new System.Drawing.Size(275, 91);
-            this.gBoxCreateOrChangeTestProgram.TabIndex = 11;
-            this.gBoxCreateOrChangeTestProgram.TabStop = false;
-            this.gBoxCreateOrChangeTestProgram.Text = "Создание/изменение программы испытания";
+            this.gBoxCreateOrChangeTestProgramOrCycle.BackColor = System.Drawing.SystemColors.Control;
+            this.gBoxCreateOrChangeTestProgramOrCycle.Controls.Add(this.btnCancelCreateTestProgram);
+            this.gBoxCreateOrChangeTestProgramOrCycle.Controls.Add(this.btnSaveTestProgram);
+            this.gBoxCreateOrChangeTestProgramOrCycle.Controls.Add(this.label3);
+            this.gBoxCreateOrChangeTestProgramOrCycle.Controls.Add(this.tBoxTestProgramName);
+            this.gBoxCreateOrChangeTestProgramOrCycle.Controls.Add(this.pBoxCreateOrChangeTestProgramOrCycle);
+            this.gBoxCreateOrChangeTestProgramOrCycle.Location = new System.Drawing.Point(265, 12);
+            this.gBoxCreateOrChangeTestProgramOrCycle.Name = "gBoxCreateOrChangeTestProgramOrCycle";
+            this.gBoxCreateOrChangeTestProgramOrCycle.Size = new System.Drawing.Size(275, 91);
+            this.gBoxCreateOrChangeTestProgramOrCycle.TabIndex = 11;
+            this.gBoxCreateOrChangeTestProgramOrCycle.TabStop = false;
+            this.gBoxCreateOrChangeTestProgramOrCycle.Text = "Создание/изменение программы испытания";
             // 
             // btnCancelCreateTestProgram
             // 
@@ -344,27 +347,35 @@ namespace NewUi.View
             this.tBoxTestProgramName.Size = new System.Drawing.Size(155, 23);
             this.tBoxTestProgramName.TabIndex = 11;
             // 
-            // gBoxModuleInProgram
+            // pBoxCreateOrChangeTestProgramOrCycle
             // 
-            this.gBoxModuleInProgram.Controls.Add(this.dGridModulesList);
-            this.gBoxModuleInProgram.Controls.Add(this.btnUpModul);
-            this.gBoxModuleInProgram.Controls.Add(this.btnDownModul);
-            this.gBoxModuleInProgram.Controls.Add(this.btnDelModul);
-            this.gBoxModuleInProgram.Controls.Add(this.btnAddModul);
-            this.gBoxModuleInProgram.Location = new System.Drawing.Point(265, 97);
-            this.gBoxModuleInProgram.Name = "gBoxModuleInProgram";
-            this.gBoxModuleInProgram.Size = new System.Drawing.Size(275, 326);
-            this.gBoxModuleInProgram.TabIndex = 29;
-            this.gBoxModuleInProgram.TabStop = false;
-            this.gBoxModuleInProgram.Text = "Набор модулей входящих в программу";
+            this.pBoxCreateOrChangeTestProgramOrCycle.BackColor = System.Drawing.SystemColors.Control;
+            this.pBoxCreateOrChangeTestProgramOrCycle.Location = new System.Drawing.Point(0, 17);
+            this.pBoxCreateOrChangeTestProgramOrCycle.Name = "pBoxCreateOrChangeTestProgramOrCycle";
+            this.pBoxCreateOrChangeTestProgramOrCycle.Size = new System.Drawing.Size(275, 70);
+            this.pBoxCreateOrChangeTestProgramOrCycle.TabIndex = 32;
+            this.pBoxCreateOrChangeTestProgramOrCycle.TabStop = false;
+            // 
+            // gBoxModuleInProgramOrCycle
+            // 
+            this.gBoxModuleInProgramOrCycle.BackColor = System.Drawing.SystemColors.Control;
+            this.gBoxModuleInProgramOrCycle.Controls.Add(this.dGridModulesList);
+            this.gBoxModuleInProgramOrCycle.Controls.Add(this.btnUpModule);
+            this.gBoxModuleInProgramOrCycle.Controls.Add(this.btnDownModule);
+            this.gBoxModuleInProgramOrCycle.Controls.Add(this.btnDelModule);
+            this.gBoxModuleInProgramOrCycle.Controls.Add(this.btnAddModule);
+            this.gBoxModuleInProgramOrCycle.Controls.Add(this.pBoxModuleInProgramOrCycle);
+            this.gBoxModuleInProgramOrCycle.Location = new System.Drawing.Point(265, 97);
+            this.gBoxModuleInProgramOrCycle.Name = "gBoxModuleInProgramOrCycle";
+            this.gBoxModuleInProgramOrCycle.Size = new System.Drawing.Size(275, 326);
+            this.gBoxModuleInProgramOrCycle.TabIndex = 29;
+            this.gBoxModuleInProgramOrCycle.TabStop = false;
+            this.gBoxModuleInProgramOrCycle.Text = "Набор модулей входящих в программу";
             // 
             // dGridModulesList
             // 
             this.dGridModulesList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dGridModulesList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dGridModulesList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Modul,
-            this.ModulData});
             this.dGridModulesList.Location = new System.Drawing.Point(6, 30);
             this.dGridModulesList.Name = "dGridModulesList";
             this.dGridModulesList.ReadOnly = true;
@@ -373,59 +384,54 @@ namespace NewUi.View
             this.dGridModulesList.Size = new System.Drawing.Size(233, 260);
             this.dGridModulesList.TabIndex = 29;
             // 
-            // Modul
+            // btnUpModule
             // 
-            this.Modul.HeaderText = "Модуль";
-            this.Modul.Name = "Modul";
-            this.Modul.ReadOnly = true;
-            this.Modul.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.btnUpModule.Location = new System.Drawing.Point(245, 87);
+            this.btnUpModule.Name = "btnUpModule";
+            this.btnUpModule.Size = new System.Drawing.Size(22, 23);
+            this.btnUpModule.TabIndex = 7;
+            this.btnUpModule.Text = "↑";
+            this.btnUpModule.UseVisualStyleBackColor = true;
+            this.btnUpModule.Click += new System.EventHandler(this.btnUpModule_Click);
             // 
-            // ModulData
+            // btnDownModule
             // 
-            this.ModulData.HeaderText = "Данные";
-            this.ModulData.Name = "ModulData";
-            this.ModulData.ReadOnly = true;
-            this.ModulData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.btnDownModule.Location = new System.Drawing.Point(245, 116);
+            this.btnDownModule.Name = "btnDownModule";
+            this.btnDownModule.Size = new System.Drawing.Size(22, 23);
+            this.btnDownModule.TabIndex = 8;
+            this.btnDownModule.Text = "↓";
+            this.btnDownModule.UseVisualStyleBackColor = true;
+            this.btnDownModule.Click += new System.EventHandler(this.btnDownModule_Click);
             // 
-            // btnUpModul
+            // btnDelModule
             // 
-            this.btnUpModul.Location = new System.Drawing.Point(245, 87);
-            this.btnUpModul.Name = "btnUpModul";
-            this.btnUpModul.Size = new System.Drawing.Size(22, 23);
-            this.btnUpModul.TabIndex = 7;
-            this.btnUpModul.Text = "↑";
-            this.btnUpModul.UseVisualStyleBackColor = true;
-            this.btnUpModul.Click += new System.EventHandler(this.btnUpModul_Click);
+            this.btnDelModule.Location = new System.Drawing.Point(169, 296);
+            this.btnDelModule.Name = "btnDelModule";
+            this.btnDelModule.Size = new System.Drawing.Size(70, 23);
+            this.btnDelModule.TabIndex = 1;
+            this.btnDelModule.Text = "Удалить";
+            this.btnDelModule.UseVisualStyleBackColor = true;
+            this.btnDelModule.Click += new System.EventHandler(this.btnDelModule_Click);
             // 
-            // btnDownModul
+            // btnAddModule
             // 
-            this.btnDownModul.Location = new System.Drawing.Point(245, 116);
-            this.btnDownModul.Name = "btnDownModul";
-            this.btnDownModul.Size = new System.Drawing.Size(22, 23);
-            this.btnDownModul.TabIndex = 8;
-            this.btnDownModul.Text = "↓";
-            this.btnDownModul.UseVisualStyleBackColor = true;
-            this.btnDownModul.Click += new System.EventHandler(this.btnDownModul_Click);
+            this.btnAddModule.Location = new System.Drawing.Point(84, 296);
+            this.btnAddModule.Name = "btnAddModule";
+            this.btnAddModule.Size = new System.Drawing.Size(70, 23);
+            this.btnAddModule.TabIndex = 9;
+            this.btnAddModule.Text = "Добавить";
+            this.btnAddModule.UseVisualStyleBackColor = true;
+            this.btnAddModule.Click += new System.EventHandler(this.btnAddModule_Click);
             // 
-            // btnDelModul
+            // pBoxModuleInProgramOrCycle
             // 
-            this.btnDelModul.Location = new System.Drawing.Point(169, 296);
-            this.btnDelModul.Name = "btnDelModul";
-            this.btnDelModul.Size = new System.Drawing.Size(70, 23);
-            this.btnDelModul.TabIndex = 1;
-            this.btnDelModul.Text = "Удалить";
-            this.btnDelModul.UseVisualStyleBackColor = true;
-            this.btnDelModul.Click += new System.EventHandler(this.btnDelModul_Click);
-            // 
-            // btnAddModul
-            // 
-            this.btnAddModul.Location = new System.Drawing.Point(84, 296);
-            this.btnAddModul.Name = "btnAddModul";
-            this.btnAddModul.Size = new System.Drawing.Size(70, 23);
-            this.btnAddModul.TabIndex = 9;
-            this.btnAddModul.Text = "Добавить";
-            this.btnAddModul.UseVisualStyleBackColor = true;
-            this.btnAddModul.Click += new System.EventHandler(this.btnAddModul_Click);
+            this.pBoxModuleInProgramOrCycle.BackColor = System.Drawing.SystemColors.Control;
+            this.pBoxModuleInProgramOrCycle.Location = new System.Drawing.Point(0, 22);
+            this.pBoxModuleInProgramOrCycle.Name = "pBoxModuleInProgramOrCycle";
+            this.pBoxModuleInProgramOrCycle.Size = new System.Drawing.Size(275, 304);
+            this.pBoxModuleInProgramOrCycle.TabIndex = 31;
+            this.pBoxModuleInProgramOrCycle.TabStop = false;
             // 
             // btnSelectTestProgram
             // 
@@ -436,16 +442,6 @@ namespace NewUi.View
             this.btnSelectTestProgram.Text = "ОК";
             this.btnSelectTestProgram.UseVisualStyleBackColor = true;
             this.btnSelectTestProgram.Click += new System.EventHandler(this.btnSelectTestProgram_Click);
-            // 
-            // listBoxProgramsList
-            // 
-            this.listBoxProgramsList.FormattingEnabled = true;
-            this.listBoxProgramsList.ItemHeight = 15;
-            this.listBoxProgramsList.Location = new System.Drawing.Point(6, 56);
-            this.listBoxProgramsList.Name = "listBoxProgramsList";
-            this.listBoxProgramsList.Size = new System.Drawing.Size(233, 319);
-            this.listBoxProgramsList.TabIndex = 14;
-            this.listBoxProgramsList.SelectedIndexChanged += new System.EventHandler(this.listBoxProgramsList_SelectedIndexChanged_1);
             // 
             // label1
             // 
@@ -478,9 +474,9 @@ namespace NewUi.View
             // 
             // gBoxTestProgramList
             // 
+            this.gBoxTestProgramList.Controls.Add(this.listBoxProgramsList);
             this.gBoxTestProgramList.Controls.Add(this.btnChangeTestProgram);
             this.gBoxTestProgramList.Controls.Add(this.btnCreateTestProgram);
-            this.gBoxTestProgramList.Controls.Add(this.listBoxProgramsList);
             this.gBoxTestProgramList.Controls.Add(this.label1);
             this.gBoxTestProgramList.Controls.Add(this.btnDelTestProgram);
             this.gBoxTestProgramList.Location = new System.Drawing.Point(12, 12);
@@ -489,6 +485,16 @@ namespace NewUi.View
             this.gBoxTestProgramList.TabIndex = 13;
             this.gBoxTestProgramList.TabStop = false;
             this.gBoxTestProgramList.Text = "Выбор программы испытания";
+            // 
+            // listBoxProgramsList
+            // 
+            this.listBoxProgramsList.FormattingEnabled = true;
+            this.listBoxProgramsList.ItemHeight = 15;
+            this.listBoxProgramsList.Location = new System.Drawing.Point(10, 56);
+            this.listBoxProgramsList.Name = "listBoxProgramsList";
+            this.listBoxProgramsList.Size = new System.Drawing.Size(229, 319);
+            this.listBoxProgramsList.TabIndex = 18;
+            this.listBoxProgramsList.SelectedIndexChanged += new System.EventHandler(this.listBoxProgramsList_SelectedIndexChanged);
             // 
             // btnChangeTestProgram
             // 
@@ -515,11 +521,11 @@ namespace NewUi.View
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(963, 466);
+            this.Controls.Add(this.gBoxModuleInProgramOrCycle);
             this.Controls.Add(this.btnCancelTestProgram);
-            this.Controls.Add(this.gBoxModuleInProgram);
             this.Controls.Add(this.btnSelectTestProgram);
             this.Controls.Add(this.gBoxTestProgramList);
-            this.Controls.Add(this.gBoxCreateOrChangeTestProgram);
+            this.Controls.Add(this.gBoxCreateOrChangeTestProgramOrCycle);
             this.Controls.Add(this.gBoxModule);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -533,11 +539,13 @@ namespace NewUi.View
             ((System.ComponentModel.ISupportInitialize)(this.numUpCycleHour)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDelayBetwenMesaureSec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpSetTemperature)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.gBoxCreateOrChangeTestProgram.ResumeLayout(false);
-            this.gBoxCreateOrChangeTestProgram.PerformLayout();
-            this.gBoxModuleInProgram.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pBoxCycle)).EndInit();
+            this.gBoxCreateOrChangeTestProgramOrCycle.ResumeLayout(false);
+            this.gBoxCreateOrChangeTestProgramOrCycle.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pBoxCreateOrChangeTestProgramOrCycle)).EndInit();
+            this.gBoxModuleInProgramOrCycle.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dGridModulesList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pBoxModuleInProgramOrCycle)).EndInit();
             this.gBoxTestProgramList.ResumeLayout(false);
             this.gBoxTestProgramList.PerformLayout();
             this.ResumeLayout(false);
@@ -546,10 +554,10 @@ namespace NewUi.View
 
         #endregion
         private System.Windows.Forms.GroupBox gBoxModule;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label labelCycleMin;
+        private System.Windows.Forms.Label labelCycleHour;
+        private System.Windows.Forms.Label labelDelayBetwenMesaureSec;
+        private System.Windows.Forms.Label labelDelayBetwenMesaureMin;
         private System.Windows.Forms.NumericUpDown numUpCycleMin;
         private System.Windows.Forms.NumericUpDown numUpDelayBetwenMesaureMin;
         private System.Windows.Forms.NumericUpDown numUpCycleHour;
@@ -562,29 +570,29 @@ namespace NewUi.View
         private System.Windows.Forms.RadioButton rBtnSetTemperature;
         private System.Windows.Forms.RadioButton rBtnSupplyOn;
         private System.Windows.Forms.RadioButton rBtnContactCheck;
-        private System.Windows.Forms.GroupBox gBoxCreateOrChangeTestProgram;
+        private System.Windows.Forms.GroupBox gBoxCreateOrChangeTestProgramOrCycle;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnDelTestProgram;
         private System.Windows.Forms.RadioButton rBtnSupplyOff;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tBoxTestProgramName;
         private System.Windows.Forms.RadioButton rBtnParamMeasureTemperature;
-        private System.Windows.Forms.ListBox listBoxProgramsList;
         private System.Windows.Forms.Button btnSaveTestProgram;
-        private System.Windows.Forms.GroupBox gBoxModuleInProgram;
+        private System.Windows.Forms.GroupBox gBoxModuleInProgramOrCycle;
         private System.Windows.Forms.DataGridView dGridModulesList;
-        private System.Windows.Forms.Button btnUpModul;
-        private System.Windows.Forms.Button btnDownModul;
-        private System.Windows.Forms.Button btnDelModul;
-        private System.Windows.Forms.Button btnAddModul;
+        private System.Windows.Forms.Button btnUpModule;
+        private System.Windows.Forms.Button btnDownModule;
+        private System.Windows.Forms.Button btnDelModule;
+        private System.Windows.Forms.Button btnAddModule;
         private System.Windows.Forms.Button btnSelectTestProgram;
         private System.Windows.Forms.Button btnCancelCreateTestProgram;
         private System.Windows.Forms.Button btnCancelTestProgram;
         private System.Windows.Forms.GroupBox gBoxTestProgramList;
         private System.Windows.Forms.Button btnChangeTestProgram;
         private System.Windows.Forms.Button btnCreateTestProgram;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Modul;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ModulData;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pBoxCycle;
+        private System.Windows.Forms.PictureBox pBoxCreateOrChangeTestProgramOrCycle;
+        private System.Windows.Forms.PictureBox pBoxModuleInProgramOrCycle;
+        private System.Windows.Forms.ListBox listBoxProgramsList;
     }
 }

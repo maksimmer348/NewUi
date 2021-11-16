@@ -58,7 +58,7 @@ namespace NewUi
             }
         }
         
-        public override object DescriptionModule()
+        public override string DescriptionModule()
         {
             return $"{Hour}час. ;{Min}мин.";
         }

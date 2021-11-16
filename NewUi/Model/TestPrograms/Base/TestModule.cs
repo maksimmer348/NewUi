@@ -15,7 +15,7 @@ namespace NewUi
         public int? CycleId { get; set; }
         public Cycle Cycle { get; set; }
         
-        public virtual object DescriptionModule()
+        public virtual string DescriptionModule()
         {
             return " ";
         }

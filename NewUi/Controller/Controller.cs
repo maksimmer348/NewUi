@@ -10,25 +10,29 @@ namespace NewUi
         private readonly ApplicationContext db;
 
 
-        TestProgram testProgram = new TestProgram();
+        TestProgram currentTestProgram = new();
 
         /// <summary>
         /// для изменения рабочеей программы
         /// </summary>
-        private bool changeTestProgramEnable;
+        private bool changeCurrentTestProgramEnable;
 
         /// <summary>
         /// список программ
         /// </summary>
         public List<TestProgram> TestProgramsList = new();
 
-        //ивент изменения списка программ
+        /// <summary>
+        ///  ивент изменения списка программ
+        /// </summary>
         public event Action<List<TestProgram>> TestProgramsListChanged;
 
-        //ивент изменения списка модулей
+        /// <summary>
+        ///  ивент изменения списка модулей
+        /// </summary>
         public event Action<TestProgram> ModulesListChangedOnProgram;
 
-        private Cycle Cycle = new Cycle();
+        private Cycle currentCycle = new();
 
         /// <summary>
         /// для работы с циклом
@@ -58,8 +62,8 @@ namespace NewUi
         /// </summary>
         public void CreateProgram()
         {
-            testProgram = new TestProgram();
-            InvokeModulesListChangedOnProgram(testProgram);
+            currentTestProgram = new();
+            InvokeModulesListChangedOnProgram(currentTestProgram);
         }
 
         /// <summary>
@@ -70,18 +74,22 @@ namespace NewUi
         {
             //обнуляем цикл 
             //Cycle = null;
-            //в случае если тестовый модуль это цикл дод./,ё        авляем его в текущий контекст
+            //в случае если тестовый модуль это цикл добавляем его в текущий контекст
             if (testModule is Cycle cycle)
             {
-                Cycle = cycle;
+                currentCycle = cycle;
             }
-            //добавляем в текущее свойство модуля текущую пролграмму в кторой он будет находитися
-            testModule.TestProgram = testProgram;
-            //добавляем в спикос модулей в программе текущщий модуль и заставлляем срабоать ивент
-            testProgram.AddModuleToList(testModule);
-            InvokeModulesListChangedOnProgram(testProgram);
+
+            //добавляем в текущее свойство модуля текущую программу в кторой он будет находитися
+            testModule.TestProgram = currentTestProgram;
+            
+            //добавляем в спикок модулей в программе текущий модуль 
+            currentTestProgram.AddModuleToList(testModule);
+            //ивент обновляющий модули в списке модулей
+            InvokeModulesListChangedOnProgram(currentTestProgram);
+            
             //устанавливаем приоритет по умолчанию для модуля 
-            testModule.Priority = testProgram.ModulesList.IndexOf(testModule);
+            testModule.Priority = currentTestProgram.ModulesList.IndexOf(testModule);
         }
 
         /// <summary>
@@ -90,14 +98,22 @@ namespace NewUi
         /// <param name="name">имя программы задается здесь</param>
         public void AddingProgramAndModuleToDb(string name = "")
         {
-            testProgram.Name = name;
+            currentTestProgram.Name = name;
 
-            foreach (var testModule in testProgram.ModulesList)
+            foreach (var testModule in currentTestProgram.ModulesList)
             {
                 switch (testModule)
                 {
                     case ContactCheck contactCheck:
-                        switch (changeTestProgramEnable)
+                        // if (contactCheck.Id == 0)
+                        // {
+                        //     db.ContactChecks.Add(contactCheck);
+                        // }
+                        // if (contactCheck.Id > 0)
+                        // {
+                        //     db.ContactChecks.Update(contactCheck);
+                        // }
+                        switch (changeCurrentTestProgramEnable)
                         {
                             //если переклюлчатель изменения false добавить в базу данных новый модуль
                             case false:
@@ -112,20 +128,24 @@ namespace NewUi
                         break;
 
                     case Cycle cycle:
-                        switch (changeTestProgramEnable)
+                        switch (changeCurrentTestProgramEnable)
                         {
                             case false:
                                 db.Cycles.Add(cycle);
                                 break;
                             case true:
-                                db.Cycles.Update(cycle);
+                                //1.костыль непонятное поведение спросить у темы
+                                if (cycle.Id == 0)
+                                    db.Cycles.Add(cycle);
+                                else
+                                    db.Cycles.Update(cycle);
                                 break;
                         }
 
                         break;
 
                     case DelayBetweenMeasurement delayBetweenMeasurement:
-                        switch (changeTestProgramEnable)
+                        switch (changeCurrentTestProgramEnable)
                         {
                             case false:
                                 db.DelayBetweenMeasurements.Add(delayBetweenMeasurement);
@@ -138,7 +158,7 @@ namespace NewUi
                         break;
 
                     case OutputVoltageMeasure outputVoltageMeasure:
-                        switch (changeTestProgramEnable)
+                        switch (changeCurrentTestProgramEnable)
                         {
                             case false:
                                 db.OutputVoltageMeasures.Add(outputVoltageMeasure);
@@ -151,7 +171,7 @@ namespace NewUi
                         break;
 
                     case ParamMeasurementTemperature paramMeasurementTemperature:
-                        switch (changeTestProgramEnable)
+                        switch (changeCurrentTestProgramEnable)
                         {
                             case false:
                                 db.ParamMeasurementTemperatures.Add(paramMeasurementTemperature);
@@ -164,7 +184,7 @@ namespace NewUi
                         break;
 
                     case SetTemperature setTemperature:
-                        switch (changeTestProgramEnable)
+                        switch (changeCurrentTestProgramEnable)
                         {
                             case false:
                                 db.SetTemperatures.Add(setTemperature);
@@ -177,7 +197,7 @@ namespace NewUi
                         break;
 
                     case SupplyOff supplyOff:
-                        switch (changeTestProgramEnable)
+                        switch (changeCurrentTestProgramEnable)
                         {
                             case false:
                                 db.SupplysOff.Add(supplyOff);
@@ -190,7 +210,7 @@ namespace NewUi
                         break;
 
                     case SupplyOn supplyOn:
-                        switch (changeTestProgramEnable)
+                        switch (changeCurrentTestProgramEnable)
                         {
                             case false:
                                 db.SupplysOn.Add(supplyOn);
@@ -204,18 +224,17 @@ namespace NewUi
                 }
             }
 
-            //если мы добавляем новую программу
-
             //елси мы меняем программу
-            if (changeTestProgramEnable)
-            { 
-                db.Update(testProgram);
-                AddProgramToList(testProgram, name);
+            if (changeCurrentTestProgramEnable)
+            {
+                db.Update(currentTestProgram);
+                AddProgramToList(currentTestProgram, name);
             }
+            //если мы добавляем новую программу
             else
             {
-                db.Add(testProgram);
-                AddProgramToList(testProgram);
+                db.Add(currentTestProgram);
+                AddProgramToList(currentTestProgram);
             }
 
             db.SaveChanges();
@@ -227,7 +246,7 @@ namespace NewUi
         /// <param name="changeProgram">переклюлчатель инициирующий редактиврование текущей программы</param>
         public void ChangeTestProgram(bool changeProgram)
         {
-            changeTestProgramEnable = changeProgram;
+            changeCurrentTestProgramEnable = changeProgram;
         }
 
         /// <summary>
@@ -283,8 +302,8 @@ namespace NewUi
         /// <param name="index">индекс выбора программы</param>
         public void SelectedTestProgram(int index)
         {
-            testProgram = TestProgramsList[index];
-            InvokeModulesListChangedOnProgram(testProgram);
+            currentTestProgram = TestProgramsList[index];
+            InvokeModulesListChangedOnProgram(currentTestProgram);
         }
 
         #endregion
@@ -297,9 +316,9 @@ namespace NewUi
         public void LoadInDb()
         {
             //полулчаем список программ из базы данных
-            var tempProgramList = db.TestPrograms.ToList();
+            var tempProgramsList = db.TestPrograms.ToList();
             //получаем модули из списка программ
-            foreach (var testProgram in tempProgramList)
+            foreach (var testProgram in tempProgramsList)
             {
                 var contactCheck = db.ContactChecks.Where(cc => cc.TestProgramId == testProgram.Id).ToList();
                 var cycle = db.Cycles.Where(c => c.TestProgramId == testProgram.Id).ToList();
@@ -320,6 +339,20 @@ namespace NewUi
                 AddProgramToList(testProgram);
             }
 
+            var tempCyclesList = db.Cycles.ToList();
+            foreach (var cycle in tempCyclesList)
+            {
+                var delayBetweenMeasurement = db.DelayBetweenMeasurements
+                    .Where(dbm => dbm.TestProgramId == cycle.Id).ToList();
+                var outputVoltageMeasure =
+                    db.OutputVoltageMeasures.Where(dbm => dbm.TestProgramId == cycle.Id).ToList();
+                var paramMeasurementTemperature = db.ParamMeasurementTemperatures
+                    .Where(pmt => pmt.TestProgramId == cycle.Id).ToList();
+                cycle.AddModulesToList(delayBetweenMeasurement, outputVoltageMeasure,
+                    paramMeasurementTemperature);
+            }
+
+            //отображаем при запуске первую програамму 
             InvokeModulesListChangedOnProgram(TestProgramsList[0]);
         }
 
@@ -373,22 +406,27 @@ namespace NewUi
         public void AddModuleToCycle(TestModule testModule)
         {
             //добавляем в текущее свойство модуля текущий цикл в ктором он будет находитися
-            testModule.Cycle = Cycle;
-            //добавляем в спикос модулей в цикле текущий модуль и заставлляем срабоать ивент
-            Cycle.AddModuleToList(testModule);
-            InvokeModulesListChangedOnCycle(Cycle);
+            testModule.Cycle = currentCycle;
+
+            //добавляем в список модулей в цикле, текущий модуль и заставлляем срабоать ивент
+            currentCycle.AddModuleToList(testModule);
+            InvokeModulesListChangedOnCycle(currentCycle);
             //устанавливаем приоритет по умолчанию для модуля
-            testModule.Priority = Cycle.ModulesList.IndexOf(testModule);
+            testModule.Priority = currentCycle.ModulesList.IndexOf(testModule);
         }
 
+        /// <summary>
+        /// изменение списка модулей в цикле
+        /// </summary>
+        /// <param name="cycle">цикл в ктотором изменятеся список модулей</param>
         public void InvokeModulesListChangedOnCycle(Cycle cycle)
         {
             ModulesListChangedOnCycle?.Invoke(cycle);
         }
 
-        public void AddingCucleAndModuleToDb()
+        public void AddingModuleCycleToDb()
         {
-            foreach (var testModule in Cycle.ModulesList)
+            foreach (var testModule in currentCycle.ModulesList)
             {
                 switch (testModule)
                 {
@@ -431,9 +469,9 @@ namespace NewUi
 
                         break;
                 }
-               
-                db.SaveChanges();
-                Cycle = null;
+
+                //  db.SaveChanges();
+                currentCycle = null;
             }
         }
 

@@ -15,9 +15,7 @@ namespace NewUi
         //проверяется ВЫХОДНОЕ напряжение всех изделлий, если все в норме то подается ПОЛНАЯ нагрузка,
         //индиктаоры меняют цвет
         
-       // public int UnquieSupplyOn;
-        
-        public override object DescriptionModule()
+        public override string DescriptionModule()
         {
             return "-";
         }

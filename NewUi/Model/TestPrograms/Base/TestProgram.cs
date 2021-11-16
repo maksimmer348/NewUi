@@ -30,8 +30,7 @@ namespace NewUi
         /// список модулей
         /// </summary>
         public List<TestModule> ModulesList = new();
-
-      
+        
         /// <summary>
         /// добаавить один модуль в программу
         /// </summary>
