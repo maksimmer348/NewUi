@@ -55,37 +55,37 @@ namespace NewUi.View
         /// ивент додбавление модуля в список модулей
         /// </summary>
         /// <param name="testProgram">тестоовая программа</param>
-        private void OnModulesListChanged(TestProgram testProgram)
+        private void OnModulesListChanged(List<TestModule> testModules)
         {
             dt.Clear();
-
-            if (!string.IsNullOrWhiteSpace(testProgram.Name))
-            {
-                tBoxTestProgramName.Text = testProgram.Name;
-            }
-
-            foreach (var testModule in testProgram.ModulesList)
+            //
+            // if (!string.IsNullOrWhiteSpace(testProgram.Name))
+            // {
+            //     tBoxTestProgramName.Text = testProgram.Name;
+            // }
+            //
+            foreach (var testModule in testModules)
             {
                 dt.Rows.Add(testModule.Name, testModule.DescriptionModule());
-                
-                if (controller.changeCycleEnable)
-                {
-                    {
-                        foreach (var testModuleCycle in testModule.ModulesList)
-                        {
-                            dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
-                        }
-                    }
-                }
-
-                // if (testModule.ModulesList.Any())
-                // {
-                //     foreach (var testModuleCycle in testModule.ModulesList)
-                //     {
-                //         dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
-                //     }
-                // }
             }
+            // if (controller.changeCycleEnable)
+            // {
+            //     {
+            //         foreach (var testModuleCycle in testModule.ModulesList)
+            //         {
+            //             dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
+            //         }
+            //     }
+            // }
+
+            // if (testModule.ModulesList.Any())
+            // {
+            //     foreach (var testModuleCycle in testModule.ModulesList)
+            //     {
+            //         dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
+            //     }
+            // }
+            //}
 
             dGridModulesList.DataSource = null;
             dGridModulesList.Rows.Clear();

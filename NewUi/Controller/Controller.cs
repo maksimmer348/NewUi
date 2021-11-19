@@ -28,7 +28,7 @@ namespace NewUi
         /// <summary>
         ///  ивент изменения списка модулей
         /// </summary>
-        public event Action<TestProgram> ModulesListChangedOnProgram;
+        public event Action<List<TestModule>> ModulesListChangedOnProgram;
 
         private Cycle currentCycle = new();
 
@@ -36,7 +36,7 @@ namespace NewUi
         /// для изменения цикла
         /// </summary>
         public bool changeCycleEnable;
-        
+
         /// <summary>
         /// ивент изменения списка модулей
         /// </summary>
@@ -56,7 +56,7 @@ namespace NewUi
         public void CreateProgram()
         {
             currentTestProgram = new();
-            InvokeModulesListChangedOnProgram(currentTestProgram);
+            InvokeModulesListChangedOnProgram(currentTestProgram.ModulesList);
         }
 
         /// <summary>
@@ -75,10 +75,11 @@ namespace NewUi
                 //добавляем в спикок модулей в программе текущий модуль 
                 currentTestProgram.AddModuleToList(testModule);
             }
+
             //устанавливаем приоритет по умолчанию для модуля 
             testModule.Priority = currentTestProgram.ModulesList.IndexOf(testModule);
             //ивент обновляющий модули в списке модулей
-            InvokeModulesListChangedOnProgram(currentTestProgram);
+            InvokeModulesListChangedOnProgram(currentTestProgram.ModulesList);
         }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace NewUi
                 db.SaveChanges();
                 AddProgramToList(currentTestProgram);
             }
-            
+
             ChangeTestProgram(false);
         }
 
@@ -137,8 +138,8 @@ namespace NewUi
         }
 
         #endregion
-        
-        
+
+
         #region работа со списком программ
 
         /// <summary>
@@ -162,9 +163,8 @@ namespace NewUi
                 tempTestProgram.Name = newNameProgram;
                 InvokeProgramsListChanged();
             }
-            
         }
-           
+
         /// <summary>
         /// выбор программы из списка программ
         /// </summary>
@@ -172,7 +172,8 @@ namespace NewUi
         public void SelectedTestProgram(int index)
         {
             currentTestProgram = TestProgramsList[index];
-            InvokeModulesListChangedOnProgram(currentTestProgram);
+
+            InvokeModulesListChangedOnProgram(currentTestProgram.ModulesList);
         }
 
         #endregion
@@ -202,9 +203,9 @@ namespace NewUi
         }
 
         #endregion
-        
+
         #region Работа с циклом
-        
+
         /// <summary>
         /// переключаения редкатирования цикла/ программы
         /// </summary>
@@ -223,7 +224,7 @@ namespace NewUi
                 EnabledCycle(true);
             }
         }
-        
+
         /// <summary>
         /// добавление модуля в цикл
         /// </summary>
@@ -235,16 +236,17 @@ namespace NewUi
             currentCycle.AddModuleToList(testModule);
             //устанавливаем приоритет по умолчанию для модуля
             testModule.Priority = currentCycle.ModulesList.IndexOf(testModule);
-            
-            InvokeModulesListChangedOnProgram(currentTestProgram);
+
+            InvokeModulesListChangedOnProgram(currentCycle.ModulesList);
         }
 
-        
+
         public void ChangeCycleToProgram()
         {
             AddModuleToProgram(currentCycle);
             EnabledCycle(false);
         }
+
         #endregion
 
         #region предзагрузка из бд
@@ -283,14 +285,11 @@ namespace NewUi
         /// вызвает  ивент изменения списка модулей
         /// </summary>
         /// <param name="testProgram">программа в кторой изменятеся список модулей</param>
-        public void InvokeModulesListChangedOnProgram(TestProgram testProgram)
+        public void InvokeModulesListChangedOnProgram(List<TestModule> testModule)
         {
-            ModulesListChangedOnProgram?.Invoke(testProgram);
+            ModulesListChangedOnProgram?.Invoke(testModule);
         }
-        
+
         #endregion
-
-
-     
     }
 }
