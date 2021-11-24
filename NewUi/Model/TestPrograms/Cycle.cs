@@ -13,9 +13,7 @@ namespace NewUi
         
         public decimal Hour { get; set; }
         public decimal Min { get; set; }
-
-        public Color CycleColor { get; set; }
-        
+        public byte[] Color { get; set; } = new byte[4];
         public int CycleNum
         {
             get;

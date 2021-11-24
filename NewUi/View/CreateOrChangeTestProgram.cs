@@ -20,8 +20,8 @@ namespace NewUi.View
             //при имзенениии модуля в программе
             controller.ModulesListChangedOnProgram += OnModulesListChanged;
             //удаляет лишние записи в гридвью
-            dGridModulesList.AllowUserToAddRows = false; 
- 
+            dGridModulesList.AllowUserToAddRows = false;
+
             //подгружаем данные из базы данных, создаем если нет первую програамму по умолчанию
             controller.Load();
 
@@ -50,45 +50,58 @@ namespace NewUi.View
         /// <param name="testProgram">тестоовая программа</param>
         private void OnModulesListChanged(TestProgram testProgram)
         {
+            
             dt.Clear();
             //индексы циклов для изменеия цветов
-            var indexCycle = new List<int>();
-            int cycleNum = 0;
+            var indexCycles =new Dictionary<int, byte[]>();
             //индексы модулей в цикле для изменеия цветов
-            var indexModule = new List<int>();
+            var indexModules = new Dictionary<int, int>();
+            // Color c = default;
+            // byte[] cycleColor = new byte[] {c.A,c.R,c.G,c.B};
             
-
             if (!string.IsNullOrWhiteSpace(testProgram.Name))
             {
                 tBoxTestProgramName.Text = testProgram.Name;
             }
-
+            
             foreach (var testModule in testProgram.ModulesList)
             {
                 var dataRow = dt.Rows.Add(testModule.Name, testModule.DescriptionModule());
-                
+            
                 if (testModule is Cycle cycle)
                 {
                     //получаю индекс цикла
-                    indexCycle.Add(dt.Rows.IndexOf(dataRow));
-                    cycleNum = cycle.CycleNum;
-                }
-                foreach (var testModuleCycle in testModule.ModulesList)
-                {
-                    dataRow = dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
-                    indexModule.Add(dt.Rows.IndexOf(dataRow));
+                    var indexCycle = dt.Rows.IndexOf(dataRow);
+                    indexCycles.Add(indexCycle, cycle.Color);
+                    
+                    foreach (var testModuleCycle in testModule.ModulesList)
+                    {
+                        dataRow = dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
+                        //
+                        indexModules.Add(dt.Rows.IndexOf(dataRow), indexCycle);
+                    }
                 }
             }
-
             dGridModulesList.DataSource = null;
             dGridModulesList.Rows.Clear();
             dGridModulesList.DataSource = dt;
+            
             //TODO как раскарсить каждый цикл в свой цвет, и все входящие в этот индекс модули в более прозрачный цвет
             //крашу цикл
-            foreach (var rowIndex in indexCycle)
+            foreach (var rowIndexCycle in indexCycles)
             {
-                uiController.ChangeColorCycleModules(dGridModulesList, cycleNum,rowIndex);
-                //dGridModulesList.Rows[rowIndex].DefaultCellStyle.BackColor =;
+                Color color = uiController.ColorCycleToRGB(rowIndexCycle.Value);
+                dGridModulesList.Rows[rowIndexCycle.Key].DefaultCellStyle.BackColor = color;
+                uiController.ChangeColorCycle(color);
+                foreach (var rowIndexModuleInCycle in indexModules)
+                {
+                   
+                    if (rowIndexModuleInCycle.Value == rowIndexCycle.Key)
+                    {
+                        dGridModulesList.Rows[rowIndexModuleInCycle.Key].DefaultCellStyle.BackColor =
+                            uiController.ColorCycleToRGB(rowIndexCycle.Value, true);
+                    }
+                }
             }
         }
 
@@ -334,7 +347,6 @@ namespace NewUi.View
 
         void changeColor()
         {
-           
         }
 
         #endregion

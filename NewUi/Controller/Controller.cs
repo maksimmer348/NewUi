@@ -6,7 +6,7 @@ namespace NewUi
     class Controller
     {
         private readonly ApplicationContext db;
-
+private UiController ui = new ();
         public Controller()
         {
             db = ApplicationContext.Instance;
@@ -117,6 +117,8 @@ namespace NewUi
             if (testModule is Cycle cycle)
             {
                 currentCycle = cycle;
+                
+                currentCycle.Color = ui.ColorCycleToByte();
                 AddModuleToProgram(currentCycle);
                 EnabledCycle(true);
             }
@@ -338,8 +340,6 @@ namespace NewUi
             TestProgramsList = tempProgramList;
             foreach (var testProgram in tempProgramList)
             {
-                //TODO выяснить как распределитиь приоритеты и сохранить в списки программ
-                //TODO как правильно вывести программы ктороые в списке првиьлная последовательность
                 testProgram.ModulesList = SortModulesList(testProgram.ModulesList, ModeEdit.Program);
             }
 
