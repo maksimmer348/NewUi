@@ -10,7 +10,7 @@ namespace NewUi
 
         public ApplicationContext()
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

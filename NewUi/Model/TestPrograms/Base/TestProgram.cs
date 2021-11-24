@@ -39,11 +39,14 @@ namespace NewUi
         {
             ModulesList.Add(module);
         }
+        
+        /// <summary>
+        /// изменить модуль в программе
+        /// </summary>
+        /// <param name="module">изменяяемый модуль</param>
         public void ChangeModuleInList(TestModule module)
         {
-            var tempList = ModulesList;
-
-            ModulesList = tempList.Where(m => m.Id == module.Id).ToList();
+            ModulesList = ModulesList.OrderBy(m => m.Id == module.Id).ToList();
         }
         public TestProgram()
         {

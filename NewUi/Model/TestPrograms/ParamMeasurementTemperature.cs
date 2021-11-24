@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NewUi
-{
+namespace NewUi;
+
     public class ParamMeasurementTemperature : TestModule
     {
        //замер темпертуры в камере дождатся лешу
@@ -11,4 +11,3 @@ namespace NewUi
            return "См. в Текущем измерении";
        }
     }
-}

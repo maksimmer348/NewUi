@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+﻿using System.Data;
 
 namespace NewUi.View
 {
@@ -27,8 +20,8 @@ namespace NewUi.View
             //при имзенениии модуля в программе
             controller.ModulesListChangedOnProgram += OnModulesListChanged;
             //удаляет лишние записи в гридвью
-            dGridModulesList.AllowUserToAddRows = false;
-
+            dGridModulesList.AllowUserToAddRows = false; 
+ 
             //подгружаем данные из базы данных, создаем если нет первую програамму по умолчанию
             controller.Load();
 
@@ -58,6 +51,12 @@ namespace NewUi.View
         private void OnModulesListChanged(TestProgram testProgram)
         {
             dt.Clear();
+            //индексы циклов для изменеия цветов
+            var indexCycle = new List<int>();
+            int cycleNum = 0;
+            //индексы модулей в цикле для изменеия цветов
+            var indexModule = new List<int>();
+            
 
             if (!string.IsNullOrWhiteSpace(testProgram.Name))
             {
@@ -66,30 +65,31 @@ namespace NewUi.View
 
             foreach (var testModule in testProgram.ModulesList)
             {
-                dt.Rows.Add(testModule.Name, testModule.DescriptionModule());
+                var dataRow = dt.Rows.Add(testModule.Name, testModule.DescriptionModule());
                 
-                if (controller.changeCycleEnable)
+                if (testModule is Cycle cycle)
                 {
-                    {
-                        foreach (var testModuleCycle in testModule.ModulesList)
-                        {
-                            dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
-                        }
-                    }
+                    //получаю индекс цикла
+                    indexCycle.Add(dt.Rows.IndexOf(dataRow));
+                    cycleNum = cycle.CycleNum;
                 }
-
-                // if (testModule.ModulesList.Any())
-                // {
-                //     foreach (var testModuleCycle in testModule.ModulesList)
-                //     {
-                //         dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
-                //     }
-                // }
+                foreach (var testModuleCycle in testModule.ModulesList)
+                {
+                    dataRow = dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
+                    indexModule.Add(dt.Rows.IndexOf(dataRow));
+                }
             }
 
             dGridModulesList.DataSource = null;
             dGridModulesList.Rows.Clear();
             dGridModulesList.DataSource = dt;
+            //TODO как раскарсить каждый цикл в свой цвет, и все входящие в этот индекс модули в более прозрачный цвет
+            //крашу цикл
+            foreach (var rowIndex in indexCycle)
+            {
+                uiController.ChangeColorCycleModules(dGridModulesList, cycleNum,rowIndex);
+                //dGridModulesList.Rows[rowIndex].DefaultCellStyle.BackColor =;
+            }
         }
 
         /// <summary>
@@ -106,9 +106,10 @@ namespace NewUi.View
         /// ивент добавлление программы в список программ
         /// </summary>
         /// <param name="testPrograms">тестовая программа</param>
-        private void ControllerOnTestProgramsListChanged(List<TestProgram> testPrograms)
+        private void ControllerOnTestProgramsListChanged(List<TestProgram>? testPrograms)
         {
             listBoxProgramsList.Items.Clear();
+            if (testPrograms == null) return;
             foreach (var program in testPrograms)
             {
                 listBoxProgramsList.Items.Add(program.Name + " " + program.Id);
@@ -152,7 +153,6 @@ namespace NewUi.View
         private void btnDelTestProgram_Click(object sender, EventArgs e)
         {
             controller.DeleteTestProgram(listBoxProgramsList.SelectedIndex);
-            dGridModulesList.Rows.Clear();
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace NewUi.View
         private void btnSaveTestProgram_Click(object sender, EventArgs e)
         {
             //если не флаг цикла сохраняем текущую пограмму в бд
-            if (!controller.changeCycleEnable)
+            if (!controller.ChangeCycleEnable)
             {
                 //добавляем в бд текущю программу с именем 
                 controller.AddingProgramAndModuleToDb(tBoxTestProgramName.Text);
@@ -220,11 +220,11 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnCancelCreateTestProgram_Click(object sender, EventArgs e)
         {
-            if (controller.changeCycleEnable)
+            if (controller.ChangeCycleEnable)
             {
                 uiController.UiModeEditProgramOrCycle(ModeEdit.Program);
             }
-            else if (!controller.changeCycleEnable)
+            else if (!controller.ChangeCycleEnable)
             {
                 uiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
             }
@@ -316,7 +316,6 @@ namespace NewUi.View
         private void btnUpModule_Click(object sender, EventArgs e)
         {
             count -= 1;
-
             changeColor();
         }
 
@@ -335,37 +334,7 @@ namespace NewUi.View
 
         void changeColor()
         {
-            if (count < 1)
-            {
-                count = 6;
-            }
-
-            if (count > 6)
-            {
-                count = 1;
-            }
-
-            switch (count)
-            {
-                case 1:
-                    uiController.ChangeColorCycle(CycleColor.Blue);
-                    break;
-                case 2:
-                    uiController.ChangeColorCycle(CycleColor.Green);
-                    break;
-                case 3:
-                    uiController.ChangeColorCycle(CycleColor.Olive);
-                    break;
-                case 4:
-                    uiController.ChangeColorCycle(CycleColor.Purpule);
-                    break;
-                case 5:
-                    uiController.ChangeColorCycle(CycleColor.Red);
-                    break;
-                case 6:
-                    uiController.ChangeColorCycle(CycleColor.Yellow);
-                    break;
-            }
+           
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing.Design;
 using System.Linq;
 
 namespace NewUi
@@ -12,7 +13,15 @@ namespace NewUi
         
         public decimal Hour { get; set; }
         public decimal Min { get; set; }
+
+        public Color CycleColor { get; set; }
         
+        public int CycleNum
+        {
+            get;
+            set;
+        }
+
         // public DateTime CycleTime { get; set; }
         public Cycle()
         {

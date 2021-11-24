@@ -1,3 +1,6 @@
+using System;
+using NewUi;
+
 namespace NewUi;
 
 static class Program

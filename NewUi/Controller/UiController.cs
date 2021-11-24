@@ -24,8 +24,8 @@ namespace NewUi
         
         public List<Control> CycleUiElements = new();
         public List<Control> CycleUiElementsChangeColor = new();
-        public List<Control> ModulesInCycleUiChangeColor = new();
-        private Color currentCycleColor;
+        Queue<Color> colors = new Queue<Color>();
+
         /// <summary>
         /// элменты задействованые при создании и изменении тестовой программы
         /// </summary>
@@ -147,33 +147,48 @@ namespace NewUi
         /// 
         /// </summary>
         /// <param name="color"></param>
-       public void ChangeColorCycle(CycleColor color)
+       public Color ChangeColorCycle(CycleColor color, int alphaChannel)
         {
             foreach (var uiColor in CycleUiElementsChangeColor)
             {
                 uiColor.BackColor = color switch
                 {
-                    CycleColor.Red => Color.RosyBrown,
-                    CycleColor.Green => Color.DarkSeaGreen,
-                    CycleColor.Blue => Color.CadetBlue,
-                    CycleColor.Olive => Color.LightSlateGray,
-                    CycleColor.Yellow => Color.NavajoWhite,
-                    CycleColor.Purpule => Color.FromArgb(255,202,181, 224),
+                    CycleColor.Red => Color.FromArgb(alphaChannel,188,143,143),	
+                    CycleColor.Green => Color.FromArgb(alphaChannel,143,188,143),	
+                    CycleColor.Blue => Color.FromArgb(alphaChannel,95,158,160),	
+                    CycleColor.Olive => Color.FromArgb(alphaChannel,119,136,153),
+                    CycleColor.Yellow => Color.FromArgb(alphaChannel,255,222, 173),
+                    CycleColor.Purpule => Color.FromArgb(alphaChannel,202,181, 224),
                     _ => uiColor.BackColor
-                };
-               currentCycleColor = uiColor.BackColor;
+                }; 
+                currentCycleColor = uiColor.BackColor;
             }
+            return currentCycleColor;
         }
 
-        public void ChangeColorCycleModules()
+        public void ChangeColorCycleModules(Control control, int cycleNum ,int rowCycleIndex, int alpha = 255)
         {
-            foreach (var VARIABLE in CycleUiElementsChangeColor)
-            {
-               // (DataGridViewRow)VARIABLE = 
+           
+                   color.Enqueue(); = ChangeColorCycle(CycleColor.Blue, alpha);
+               
+                    color =ChangeColorCycle(CycleColor.Green, alpha);
+                    break;
+                case 3:
+                    color =ChangeColorCycle(CycleColor.Olive, alpha);
+                    break;
+                case 4:
+                    color = ChangeColorCycle(CycleColor.Purpule, alpha);
+                    break;
+                case 5:
+                    color = ChangeColorCycle(CycleColor.Red, alpha);
+                    break;
+                case 6:
+                    color = ChangeColorCycle(CycleColor.Yellow, alpha);
+                    break;
             }
-
             
-            
+            ((DataGridView)control).Rows[rowCycleIndex].DefaultCellStyle.BackColor = color;
         }
+
     }
 }
