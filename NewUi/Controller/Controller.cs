@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-
 namespace NewUi
 {
     class Controller
     {
         private readonly ApplicationContext db;
-private UiController ui = new ();
+        // private UiController uiController = new();
+
         public Controller()
         {
             db = ApplicationContext.Instance;
@@ -33,7 +33,7 @@ private UiController ui = new ();
         /// <summary>
         /// додбавить модуль к списку модулей тестовой пограммы
         /// </summary>
-        /// <param name="tes tModule">добавляемый модуль</param>
+        /// <param name="testModule">добавляемый модуль</param>
         public void AddModuleToProgram(TestModule testModule)
         {
             if (ChangeCycleEnable)
@@ -48,7 +48,7 @@ private UiController ui = new ();
             }
 
             //устанавливаем приоритет по умолчанию для модуля 
-            testModule.Priority = SetPriorityModules(testModule, ModeEdit.Program);
+            testModule.Priority = SetPriorityModule(testModule, ModeEdit.Program);
 
 
             //ивент обновляющий модули в списке модулей
@@ -104,23 +104,26 @@ private UiController ui = new ();
         public bool ChangeCycleEnable;
 
         /// <summary>
-        /// переключаения редкатирования цикла
+        /// переключение редкатирования цикла
         /// </summary>
-        /// <param name="changeProgram">переклюлчатель инициирующий редактиврование текущей цикла</param>
-        public void EnabledCycle(bool enableCycle)
+        /// <param name="enableCycle">перелючатель редактирования цикла</param>
+        public void EnabledEditingCycle(bool enableCycle)
         {
             ChangeCycleEnable = enableCycle;
         }
 
+        /// <summary>
+        /// создание цикла
+        /// </summary>
+        /// <param name="testModule">модуль цикла</param>
         public void CreateCycle(TestModule testModule)
         {
             if (testModule is Cycle cycle)
             {
                 currentCycle = cycle;
-                
-                currentCycle.Color = ui.ColorCycleToByte();
+
                 AddModuleToProgram(currentCycle);
-                EnabledCycle(true);
+                EnabledEditingCycle(true);
             }
         }
 
@@ -131,10 +134,10 @@ private UiController ui = new ();
         /// <exception cref="NotImplementedException"></exception>
         public void AddModuleToCycle(TestModule testModule)
         {
-            //добавляем в список модулей в цикле, текущий модуль и заставляем срабоать ивент
+            //добавляем в список модулей в цикле, текущий модуль и заставляем сработать ивент
             currentCycle.AddModuleToList(testModule);
             //устанавливаем приоритет по умолчанию для модуля
-            testModule.Priority = SetPriorityModules(testModule, ModeEdit.Cycle);
+            testModule.Priority = SetPriorityModule(testModule, ModeEdit.Cycle);
             InvokeModulesListChangedOnProgram(currentTestProgram);
         }
 
@@ -144,30 +147,7 @@ private UiController ui = new ();
         public void ChangeCycleToProgram()
         {
             AddModuleToProgram(currentCycle);
-            EnabledCycle(false);
-        }
-
-        //TODO как сделать определение номера цикла решить это через стек или очередь если цввета кончились просто закинуть еще раз
-        public void CycleNumLoop()
-        {
-            foreach (var testModule in currentTestProgram.ModulesList)
-            {
-                var count = 0;
-                if (testModule is Cycle cycle)
-                {
-                    if (cycle.CycleNum == 0)
-                    {
-                        count += 1;
-                        cycle.CycleNum = count;
-                    }
-
-                    if (count < 6)
-                    {
-                        cycle.CycleNum = 1;
-                        continue;
-                    }
-                }
-            }
+            EnabledEditingCycle(false);
         }
 
         #endregion
@@ -181,7 +161,7 @@ private UiController ui = new ();
         public event Action<TestProgram> ModulesListChangedOnProgram;
 
         /// <summary>
-        /// оперделение входящего модуля
+        /// определение входящего модуля
         /// </summary>
         /// <param name="testModule">цикл/модуль</param>
         public void CycleOrModule(TestModule testModule)
@@ -207,7 +187,7 @@ private UiController ui = new ();
         }
 
         /// <summary>
-        /// вызвает  ивент изменения списка модулей
+        /// вызвает ивент изменения списка модулей
         /// </summary>
         /// <param name="testProgram">программа в кторой изменятеся список модулей</param>
         public void InvokeModulesListChangedOnProgram(TestProgram testProgram)
@@ -216,11 +196,12 @@ private UiController ui = new ();
         }
 
         /// <summary>
-        /// приоритет по умолчанию для модуля
+        /// получить значение приоритет по умолчанию для модуля
         /// </summary>
         /// <param name="testModule">модуль</param>
+        /// <param name="modeEdit">переклюлчатьель режима программа/цикл</param>
         /// <returns></returns>
-        int SetPriorityModules(TestModule testModule, ModeEdit modeEdit)
+        int SetPriorityModule(TestModule testModule, ModeEdit modeEdit)
         {
             if (modeEdit == ModeEdit.Program)
             {
@@ -232,10 +213,20 @@ private UiController ui = new ();
             }
         }
 
+        List<TestModule> SetPrioritiesModules(List<TestModule> testModules)
+        {
+            foreach (var testModule in testModules)
+            {
+                testModule.Priority = testModules.IndexOf(testModule);
+            }
+            return testModules;
+        }
+
         /// <summary>
         /// сортировка списка модулей
         /// </summary>
         /// <param name="testModulesList">списко модулей</param>
+        /// <param name="modeEdit">переключатель режима программа/цикл</param>
         List<TestModule> SortModulesList(List<TestModule> testModulesList, ModeEdit modeEdit)
         {
             if (modeEdit == ModeEdit.Program)
@@ -260,17 +251,130 @@ private UiController ui = new ();
             return testModulesList;
         }
 
+        //TODO уменьщитиь метод вдвое
+        /// <summary>
+        /// выбор модуля по индексу из программы или цикла, и его перемещение
+        /// </summary>
+        /// <param name="indexModule">индекс модуля из dGridModulesList</param>
+        /// <param name="mode">прееклуючатель режима выбора и перемещения модуля в программе/цикле</param>
+        /// <param name="move">направление перемещения модуля</param>
+        public int SelectedAndMoveModule(int indexModule, ModeEdit mode, MoveDirection move)
+        {
+            var index = 0;
+            List<TestModule> tempList = null;
+            TestModule item = null;
+            tempList = currentTestProgram.ModulesList;
+            
+            index = tempList.FindIndex(s => s.Index == indexModule);
+            var upIndex = index - 1;
+            var downIndex = index + 1;
+            
+            if (index != -1)
+            {
+                item = tempList[index];
+
+                if (move == MoveDirection.Up)
+                {
+                    if (index > 0)
+                    {
+                        tempList.RemoveAt(index);
+                        tempList.Insert(upIndex, item);
+                        currentTestProgram.ModulesList = SetPrioritiesModules(tempList);   
+                        //if (item != null) item.Priority = SetPriorityModule(item, ModeEdit.Program);
+                        //currentTestProgram.ModulesList = tempList;
+                        InvokeModulesListChangedOnProgram(currentTestProgram);
+                        index = item.Index;
+                    }
+                }
+                else if (move == MoveDirection.Down)
+                {
+                    if (index < tempList.Count -1)
+                    {
+                        tempList.RemoveAt(index);
+                        tempList.Insert(downIndex, item);
+                        currentTestProgram.ModulesList = SetPrioritiesModules(tempList);   
+                        //if (item != null) item.Priority = SetPriorityModule(item, ModeEdit.Program);
+                        //currentTestProgram.ModulesList = tempList;
+                        InvokeModulesListChangedOnProgram(currentTestProgram);
+                        index = item.Index;
+                    }
+                }
+                else if(move == MoveDirection.Delete)
+                {
+                    tempList.RemoveAt(index);
+                    currentTestProgram.ModulesList = SetPrioritiesModules(tempList);   
+                    //if (item != null) item.Priority = SetPriorityModule(item, ModeEdit.Program);
+                    //currentTestProgram.ModulesList = tempList;
+                    InvokeModulesListChangedOnProgram(currentTestProgram);
+                }
+            }
+            else
+            {
+                for (var i = 0; i < currentTestProgram.ModulesList.Count; i++)
+                {
+                    tempList = currentTestProgram.ModulesList[i].ModulesList;
+                    index = tempList.FindIndex(s => s.Index == indexModule);
+                    upIndex = index - 1;
+                    downIndex = index + 1;
+                    
+                    if (index != -1)
+                    {
+                        if (move == MoveDirection.Up)
+                        {
+                            if (index > 0)
+                            {
+                                item = tempList[index];
+                                tempList.RemoveAt(index);
+                                tempList.Insert(upIndex, item);
+                                currentTestProgram.ModulesList[i].ModulesList = SetPrioritiesModules(tempList);   
+                                //currentTestProgram.ModulesList[i].ModulesList = tempList;
+                                InvokeModulesListChangedOnProgram(currentTestProgram);
+                                return item.Index;
+                            }
+                        }
+                        else if (move == MoveDirection.Down)
+                        {
+                            if (index < tempList.Count -1)
+                            {
+                                item = tempList[index];
+                                tempList.RemoveAt(index);
+                                tempList.Insert(downIndex, item);
+                                currentTestProgram.ModulesList[i].ModulesList = SetPrioritiesModules(tempList); 
+                                //currentTestProgram.ModulesList[i].ModulesList = tempList;
+                                InvokeModulesListChangedOnProgram(currentTestProgram);
+                                return item.Index;
+                            }
+                        }
+                        else if (move == MoveDirection.Delete)
+                        {
+                            
+                                item = tempList[index];
+                                tempList.RemoveAt(index);
+                                currentTestProgram.ModulesList[i].ModulesList = SetPrioritiesModules(tempList); 
+                                //currentTestProgram.ModulesList[i].ModulesList = tempList;
+                                InvokeModulesListChangedOnProgram(currentTestProgram);
+                               
+                            
+                        }
+                    }
+                }
+            }
+
+            return index;
+        }
+
         #endregion
 
 
+        
         #region работа со списком программ
 
-        public List<TestProgram>? TestProgramsList = new();
+        public List<TestProgram> TestProgramsList = new();
 
         /// <summary>
         ///  ивент изменения списка программ
         /// </summary>
-        public event Action<List<TestProgram>?> TestProgramsListChanged;
+        public event Action<List<TestProgram>> TestProgramsListChanged;
 
         /// <summary>
         /// добавление/изменение програмы в списке
@@ -301,8 +405,16 @@ private UiController ui = new ();
         /// <param name="index">индекс выбора программы</param>
         public void SelectedTestProgram(int index)
         {
-            currentTestProgram = TestProgramsList[index];
-            InvokeModulesListChangedOnProgram(currentTestProgram);
+            //
+            try
+            {
+                currentTestProgram = TestProgramsList[index];
+                InvokeModulesListChangedOnProgram(currentTestProgram);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(@"Выберите элемент");
+            }
         }
 
         /// <summary>
@@ -338,10 +450,11 @@ private UiController ui = new ();
             var tempProgramList = db.TestPrograms?.Include(p =>
                 p.ModulesList).ThenInclude(m => m.ModulesList).ToList();
             TestProgramsList = tempProgramList;
-            foreach (var testProgram in tempProgramList)
-            {
-                testProgram.ModulesList = SortModulesList(testProgram.ModulesList, ModeEdit.Program);
-            }
+            if (tempProgramList != null)
+                foreach (var testProgram in tempProgramList)
+                {
+                    testProgram.ModulesList = SortModulesList(testProgram.ModulesList, ModeEdit.Program);
+                }
 
             InvokeProgramsListChanged();
         }

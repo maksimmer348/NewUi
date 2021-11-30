@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics;
 
 namespace NewUi.View
 {
@@ -7,6 +8,7 @@ namespace NewUi.View
         Controller controller = new();
         UiController uiController = new();
         DataTable dt = new();
+        DataRow indexRow;
 
         public CreateOrChangeTestProgram()
         {
@@ -14,13 +16,16 @@ namespace NewUi.View
 
             dt.Columns.Add("Module", typeof(string));
             dt.Columns.Add("Descriprion", typeof(string));
-
+            dt.Columns.Add("Index", typeof(int));
             //при изменении списка программ
             controller.TestProgramsListChanged += ControllerOnTestProgramsListChanged;
             //при имзенениии модуля в программе
             controller.ModulesListChangedOnProgram += OnModulesListChanged;
             //удаляет лишние записи в гридвью
             dGridModulesList.AllowUserToAddRows = false;
+            dGridModulesList.MultiSelect = false;
+            dGridModulesList.AllowUserToResizeColumns = false;
+            dGridModulesList.AllowUserToResizeRows = false;
 
             //подгружаем данные из базы данных, создаем если нет первую програамму по умолчанию
             controller.Load();
@@ -42,6 +47,13 @@ namespace NewUi.View
             // uiController.ChangeColor(CycleColor.Green);
             //при запуске программы запускается отображение связанных с списокм тестовых программ ui элменты
             uiController.UiModeEditProgramOrProgramList(ModeEdit.ProgramsList);
+            uiController.OnChangeDataGridView += UiControllerOnOnChangeDataGridView;
+        }
+
+        private void UiControllerOnOnChangeDataGridView(int obj)
+        {
+            //TODO как взывать перемещени ячейки на одну в зависимости от перемещения айтема
+            dGridModulesList_CellClick(dGridModulesList, new DataGridViewCellEventArgs(0, obj));
         }
 
         /// <summary>
@@ -50,52 +62,62 @@ namespace NewUi.View
         /// <param name="testProgram">тестоовая программа</param>
         private void OnModulesListChanged(TestProgram testProgram)
         {
-            
             dt.Clear();
             //индексы циклов для изменеия цветов
-            var indexCycles =new Dictionary<int, byte[]>();
+            var indexCycles = new Dictionary<int, byte[]>();
             //индексы модулей в цикле для изменеия цветов
             var indexModules = new Dictionary<int, int>();
             // Color c = default;
             // byte[] cycleColor = new byte[] {c.A,c.R,c.G,c.B};
-            
+
             if (!string.IsNullOrWhiteSpace(testProgram.Name))
             {
                 tBoxTestProgramName.Text = testProgram.Name;
             }
-            
+
             foreach (var testModule in testProgram.ModulesList)
             {
                 var dataRow = dt.Rows.Add(testModule.Name, testModule.DescriptionModule());
-            
+                //
+                testModule.Index = dt.Rows.IndexOf(dataRow);
+                // uiController.FocusedItem(dGridModulesList, testModule.Index);
+                //
+                dt.Rows[testModule.Index][2] = testModule.Index;
+
+
                 if (testModule is Cycle cycle)
                 {
                     //получаю индекс цикла
                     var indexCycle = dt.Rows.IndexOf(dataRow);
                     indexCycles.Add(indexCycle, cycle.Color);
-                    
+
                     foreach (var testModuleCycle in testModule.ModulesList)
                     {
                         dataRow = dt.Rows.Add(testModuleCycle.Name, testModuleCycle.DescriptionModule());
                         //
+                        testModuleCycle.Index = dt.Rows.IndexOf(dataRow);
+                        // uiController.FocusedItem(dGridModulesList, testModuleCycle.Index);
+                        //
+                        dt.Rows[testModuleCycle.Index][2] = testModuleCycle.Index;
                         indexModules.Add(dt.Rows.IndexOf(dataRow), indexCycle);
                     }
                 }
             }
+
             dGridModulesList.DataSource = null;
             dGridModulesList.Rows.Clear();
             dGridModulesList.DataSource = dt;
-            
+            dGridModulesList.Columns["Index"].Visible = false;
+
             //TODO как раскарсить каждый цикл в свой цвет, и все входящие в этот индекс модули в более прозрачный цвет
             //крашу цикл
             foreach (var rowIndexCycle in indexCycles)
             {
                 Color color = uiController.ColorCycleToRGB(rowIndexCycle.Value);
                 dGridModulesList.Rows[rowIndexCycle.Key].DefaultCellStyle.BackColor = color;
-                uiController.ChangeColorCycle(color);
+                //uiController.ChangeColorCycle(color);
                 foreach (var rowIndexModuleInCycle in indexModules)
                 {
-                   
                     if (rowIndexModuleInCycle.Value == rowIndexCycle.Key)
                     {
                         dGridModulesList.Rows[rowIndexModuleInCycle.Key].DefaultCellStyle.BackColor =
@@ -104,6 +126,8 @@ namespace NewUi.View
                 }
             }
         }
+
+        
 
         /// <summary>
         /// ивент изменение имени программы
@@ -305,7 +329,9 @@ namespace NewUi.View
                 {
                     Name = "Цикл измерений",
                     Hour = numUpCycleHour.Value,
-                    Min = numUpCycleMin.Value
+                    Min = numUpCycleMin.Value,
+                    //присвоение циклу цвета
+                    Color = uiController.ColorCycleToByte()
                 };
             }
 
@@ -319,6 +345,22 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnDelModule_Click(object sender, EventArgs e)
         {
+            if (controller.ChangeCycleEnable)
+            {
+                if (indexRow[2] is int numIndexRow)
+                {
+                    uiController.FocusedItem(dGridModulesList,
+                        controller.SelectedAndMoveModule(numIndexRow, ModeEdit.Cycle, MoveDirection.Delete));
+                }
+            }
+            else
+            {
+                if (indexRow[2] is int numIndexRow)
+                {
+                    uiController.FocusedItem(dGridModulesList,
+                        controller.SelectedAndMoveModule(numIndexRow, ModeEdit.Program, MoveDirection.Delete));
+                }
+            }
         }
 
         /// <summary>
@@ -328,11 +370,23 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnUpModule_Click(object sender, EventArgs e)
         {
-            count -= 1;
-            changeColor();
+            if (controller.ChangeCycleEnable)
+            {
+                if (indexRow[2] is int numIndexRow)
+                {
+                    uiController.FocusedItem(dGridModulesList,
+                        controller.SelectedAndMoveModule(numIndexRow, ModeEdit.Cycle, MoveDirection.Up));
+                }
+            }
+            else
+            {
+                if (indexRow[2] is int numIndexRow)
+                {
+                    uiController.FocusedItem(dGridModulesList,
+                        controller.SelectedAndMoveModule(numIndexRow, ModeEdit.Program, MoveDirection.Up));
+                }
+            }
         }
-
-        int count = 0;
 
         /// <summary>
         ///  подвинуть модуль в проргамме на одно позицию вниз
@@ -341,12 +395,34 @@ namespace NewUi.View
         /// <param name="e"></param>
         private void btnDownModule_Click(object sender, EventArgs e)
         {
-            count += 1;
-            changeColor();
+            if (controller.ChangeCycleEnable)
+            {
+                if (indexRow[2] is int numIndexRow)
+                {
+                    
+                     uiController.FocusedItem(dGridModulesList, controller.SelectedAndMoveModule(numIndexRow, ModeEdit.Cycle, MoveDirection.Down));
+                }
+            }
+            else
+            {
+                if (indexRow[2] is int numIndexRow)
+                {
+                 
+                    uiController.FocusedItem(dGridModulesList,    controller.SelectedAndMoveModule(numIndexRow, ModeEdit.Program, MoveDirection.Down));
+                }
+            }
         }
 
-        void changeColor()
+        /// <summary>
+        /// выбор модуля для изменения или удаления
+        /// </summary>
+        /// <param name="sender">модуль в гридлисте</param>
+        /// <param name="e"></param>
+        private void dGridModulesList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            int index = e.RowIndex;
+            dGridModulesList.Rows[index].Selected = true;
+            indexRow = dt.Rows[index];
         }
 
         #endregion

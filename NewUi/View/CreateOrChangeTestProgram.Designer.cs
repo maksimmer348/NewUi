@@ -383,6 +383,7 @@ namespace NewUi.View
             this.dGridModulesList.RowTemplate.Height = 25;
             this.dGridModulesList.Size = new System.Drawing.Size(233, 260);
             this.dGridModulesList.TabIndex = 29;
+            this.dGridModulesList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dGridModulesList_CellClick);
             // 
             // btnUpModule
             // 
@@ -416,7 +417,7 @@ namespace NewUi.View
             // 
             // btnAddModule
             // 
-            this.btnAddModule.Location = new System.Drawing.Point(84, 296);
+            this.btnAddModule.Location = new System.Drawing.Point(87, 296);
             this.btnAddModule.Name = "btnAddModule";
             this.btnAddModule.Size = new System.Drawing.Size(70, 23);
             this.btnAddModule.TabIndex = 9;
